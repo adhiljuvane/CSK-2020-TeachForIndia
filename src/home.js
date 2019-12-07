@@ -450,7 +450,7 @@ else {
                         </Card>
                       </Col>
                       <Col md={4} style={{marginTop:40}}>
-                        <Card style={{width:'auto', heigh:'auto', textAlign:'center'}}>
+                        <Card style={{width:'auto', height:'auto', textAlign:'center'}}>
                           <CardTitle title="Particiant Details"/>
                           <PartDetailsUser id={this.state.searchID} school={this.state.school} class={this.state.class} adminList={this.state.value}/>
                         </Card>

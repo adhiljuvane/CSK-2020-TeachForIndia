@@ -78,7 +78,7 @@ export default class EventList extends React.Component {
     var data =[]
     data = this.state.ind;
     return (
-      <div>
+      <div style={{display : "flex" , flexDirection : "column" , alignItems : "center"}}>
         <Transfer
         showSearch
         dataSource={data}
@@ -90,7 +90,7 @@ export default class EventList extends React.Component {
         onSelectChange={this.handleSelectChange}
         render={item => item.name}
       />
-    <RaisedButton label="Send" secondary={true} onClick={this.send.bind(this)}/>
+      <RaisedButton label="Send" secondary={true} onClick={this.send.bind(this)} style={{marginTop : "10px"}}/>
       </div>
     );
   }
