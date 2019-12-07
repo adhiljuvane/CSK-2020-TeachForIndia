@@ -146,7 +146,7 @@ onSave(){
   message.info('Enter Particiant Details');
   }
   else {
-  db.ref(this.state.pSchool).child(this.state.pClass).once('value').then(function(data){
+  db.ref(this.state.pSchool).child(this.state.pClass).child(this.state.pReg).once('value').then(function(data){
   if (data.val()) {
     that.showNotification();
     that.setState({size:true})
