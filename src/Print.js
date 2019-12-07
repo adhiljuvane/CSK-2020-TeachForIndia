@@ -3,6 +3,7 @@ import Grid from 'react-bootstrap/lib/Grid'
 import Row from 'react-bootstrap/lib/Row'
 import Col from 'react-bootstrap/lib/Col'
 import {List, Button, message} from 'antd'
+import backgroundImage from "./CSK2020.png";
 import {Auth , db} from './config'
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -21,6 +22,7 @@ export default class Print extends React.Component {
       admin:false,
       showPrint:false,
       branchActive:true,
+      teacherInCharge : '',
       value:'',
       background:'../background.jpg',
     }
@@ -33,7 +35,7 @@ componentDidMount(){
     if (user) {
       if(user.uid != 'vT00GEdpnKTuXiZlvAF2KJFgZ1j1' && !that.state.admin){
         db.ref('users').child(user.uid).once('value').then(function(data){
-          that.setState({branchCode:data.val().branch , school : data.val().school , class : data.val().class})
+          that.setState({branchCode:data.val().branch , school : data.val().school , class : data.val().class , teacherInCharge : data.val().name})
         })
       }
       else{
@@ -54,8 +56,8 @@ componentDidMount(){
   print(){
     var that = this
     var vj_data = []
-    if (this.state.branchCode.length < 1) {
-        message.info('BranchCode Not Found');
+    if (this.state.class.length < 1) {
+        message.info('Class Not Found');
     }
     else {
       db.ref().child(this.state.school).child(this.state.class).on('value',function(data){
@@ -64,11 +66,11 @@ componentDidMount(){
             name:child.val().name,
             photo:child.val().photo,
             regno:child.val().regno,
-            sem:child.val().semester,
             events:child.val().events,
-            branch:child.val().branch,
+            class:that.state.class,
+            school:that.state.school,
+            teacherInCharge : that.state.teacherInCharge
           }
-
           vj_data.push(d)
           console.log("eev",d.events);
         })
@@ -77,6 +79,7 @@ componentDidMount(){
       this.setState({showPrint:true})
     }
   }
+
   printadmin(){
     var that = this
     var vj_data = []
@@ -105,43 +108,40 @@ componentDidMount(){
     const array = this.state.data
     for (var i = 0; i < array.length; i++) {
       items.push(
-        <Col md={4} style={{border:1,borderStyle:'dashed',padding:50,height:550,backgroundImage: `url(${this.state.background})`,backgroundSize: 'cover'}}>
+        <div className="IndIdCard" style={{ border:1, borderStyle:'dashed', padding:30, height:550, width:420 , backgroundImage: `url(${backgroundImage})`, backgroundSize: '450px' , backgroundRepeat : "no-repeat" , backgroundPosition : "center" }}>
           <div>
-          <Row>
-            <Col sm={5}>
-              <img src={array[i].photo}  width="100px" height="100px" />
-            </Col>
-            <Col sm={7} style={{marginTop:10}}>
-              <h5>Name: {array[i].name}</h5>
-              <h5 id="regno">RegNo: {array[i].regno}</h5>
-              <h5 id="semester">Semester: {array[i].sem}</h5>
-              <h5 id="branch">Branch: {array[i].branch}</h5>
-            </Col>
-
-          </Row>
+            <div style={{display : "flex" , width : "100%" , justifyContent : "center" , alignItems : "center" , fontSize : "45px"}}>Participant</div>
+            <div style={{display : "flex" , flexDirection : "row" , justifyContent : "space-around" , marginBottom : "17px"}}>
+              <div style={{display : "flex" , alignItems :"center"}}><img src={array[i].photo}  width="150px" height="150px" /></div>
+              <div style={{marginTop:10}}>
+                <h5>Name: {array[i].name}</h5>
+                <h5 id="regno">Roll No: {array[i].regno}</h5>
+                <h5 id="semester">School: {array[i].school}</h5>
+                <h5 id="branch">Class: {array[i].class}</h5>
+              </div>
+            </div>
           </div>
           <div>
-            <Row>
-              <Col sm={6} heigh="30px">
+            <div>
+              <div style={{marginBottom : "24px"}}>
                 <h4>Individual</h4>
                   {
                     array[i].events.individual!=null?
                     array[i].events.individual.indlist.map((item,i) => <li key={i}>{item.name}</li>)
                 :null
                 }
-              </Col>
-              <Col sm={6} heigh="30px">
+              </div>
+              <div>
                 <h4>Group</h4>
               {
                 array[i].events.group!=null?
                 array[i].events.group.grplist.map((item,i) => <li key={i}>{item.name}</li>)
                 :null
               }
-              </Col>
-            </Row>
+              </div>
+            </div>
           </div>
-        </Col>
-
+        </div>
       )
     }
 
@@ -178,10 +178,11 @@ componentDidMount(){
           </div>
         :
           <div>
+            <div style={{marginLeft:30 , marginTop : 10}}>{this.state.school}</div>
             <TextField
-              floatingLabelText="Branch"
+              floatingLabelText="Class"
               disabled={this.state.branchActive}
-              value={this.state.branchCode} style={{marginLeft:30}}
+              value={this.state.class} style={{marginLeft:30}}
             />
             <Button type="primary" shape="circle" icon="printer" size='large' onClick={this.print.bind(this)}/>
           </div>}
