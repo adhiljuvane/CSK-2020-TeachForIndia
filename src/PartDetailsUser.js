@@ -1,7 +1,6 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
-import { Upload, Icon, message,Progress } from 'antd';
+import { Upload, Icon, message } from 'antd';
 import {db,storage,Auth} from './config'
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -18,10 +17,8 @@ export default class PartDetailsUser extends React.Component {
         fileList:[],
         img:'',
         error:'',
-        pReg:'', //remove
+        pReg:'', 
         pName:'',
-        pSem:'', //remove
-        pBranch :'', //remove
         pClass : '',
         pAge : '',
         pSchool : '',
@@ -30,12 +27,10 @@ export default class PartDetailsUser extends React.Component {
         pMobile : '',
         imgUrl:'',
         key:'',
-        branchCode:'',
         branchActive:true,
         admin:false,
         progress:'',
         progress_vis:false,
-        pSem:'',
     }
   }
 
@@ -46,12 +41,11 @@ var that  = this
     if(user.uid != 'vT00GEdpnKTuXiZlvAF2KJFgZ1j1' && !that.state.admin){
     db.ref('users').child(user.uid).once('value').then(function(data){
           var who = data.val().branch
-          that.setState({branchCode:data.val().branch , pTeacherInCharge : data.val().name})
+          that.setState({ pTeacherInCharge : data.val().name})
       })
     }
     else{
       that.setState({admin:true})
-      that.setState({branchCode:''})
       that.setState({branchActive:false})
     }
   } else {
@@ -110,15 +104,11 @@ uploadFile(){
                       var downloadURL = uploadTask.snapshot.downloadURL;
                       //db.ref().child('particiant/'+key_id).set({key:downloadURL})
                       self.setState({imgUrl:downloadURL,key:key_id});
-
                       var data = {
                         name:self.state.pName,
                         reg:self.state.pReg,
-                        branch:self.state.pBranch,
                         img:self.state.imgUrl,
                         key:self.state.key,
-                        semester:self.state.pSem,
-
                       }
                  self.setState({imgUrl:''})
                       self.props.getDetails(data)
@@ -134,14 +124,6 @@ onReg(e,str){
 onName(e,str){
   this.setState({pName:str})
 }
-onBranch(e,str){
-  this.setState({pBranch:str})
-  this.setState({branchCode:str})
-}
-onSem(e,str){
-  this.setState({pSem:str})
-}
-
 onSave(){
   this.uploadFile()
   }
@@ -159,8 +141,6 @@ setSearch(){
                that.setState({pReg:data.val().regno})
                that.setState({img:data.val().photo})
                that.setState({imgUrl:data.val().photo})
-               that.setState({pSem:data.val().semester})
-               that.setState({branchCode:bcode})
            }).catch(function(error) {
              message.info('Participant Details not found!!!');
              that.clearDataAdmin()
@@ -178,7 +158,6 @@ setSearch(){
            that.setState({pMobile : data.val().mobile})
            that.setState({img:data.val().photo})
            that.setState({imgUrl:data.val().photo})
-           that.setState({pSem:data.val().semester})
        }).catch(function(error) {
          message.info('Participant Details not found');
          that.clearData()
@@ -233,13 +212,6 @@ setSearch(){
     />
     <TextField
       errorText={this.state.error}
-      floatingLabelText="Semester"
-      value={this.state.pSem}
-      onChange={this.onSem.bind(this)}
-      errorText=""
-    />
-    <TextField
-      errorText={this.state.error}
       floatingLabelText="School"
       value={this.state.pSchool}
       disabled={this.state.branchActive}
@@ -273,12 +245,6 @@ setSearch(){
       floatingLabelText="Phone Number"
       value={this.state.pMobile}
       onChange={this.onMobile} 
-    />
-    <TextField
-      disabled={this.state.branchActive}
-      value={this.state.branchCode}
-      floatingLabelText="Branch Code"
-      onChange={this.onBranch.bind(this)}
     />
     <div style={{width:'22%',margin:'auto'}}>
       <Upload

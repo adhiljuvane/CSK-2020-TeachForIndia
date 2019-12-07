@@ -18,8 +18,6 @@ export default class PartDetail extends React.Component {
         error:'',
         pReg:'', //remove
         pName:'',
-        pSem:'', //remove
-        pBranch :'', //remove
         pClass : '',
         pAge : '',
         pSchool : '',
@@ -28,7 +26,6 @@ export default class PartDetail extends React.Component {
         pMobile : '',
         imgUrl:'',
         key:'',
-        branchCode:'',
         branchActive:true,
         admin:false,
         progress:'',
@@ -43,12 +40,11 @@ export default class PartDetail extends React.Component {
     if (user) {
     if(user.uid != 'vT00GEdpnKTuXiZlvAF2KJFgZ1j1' && !that.state.admin){
     db.ref('users').child(user.uid).once('value').then(function(data){
-          that.setState({branchCode:data.val().branch , pClass : data.val().class , pSchool : data.val().school , pTeacherInCharge : data.val().name})
+          that.setState({pClass : data.val().class , pSchool : data.val().school , pTeacherInCharge : data.val().name})
       })
     }
     else{
       that.setState({admin:true})
-      that.setState({branchCode:''})
       that.setState({branchActive:false})
     }
   } else {
@@ -104,7 +100,6 @@ uploadFile(){
                       var data = {
                         name:self.state.pName,
                         reg:self.state.pReg,
-                        branch:self.state.pBranch,
                         mobile:self.state.pMobile,
                         class:self.state.pClass,
                         school:self.state.pSchool,
@@ -112,7 +107,6 @@ uploadFile(){
                         age:self.state.pAge,
                         img:self.state.imgUrl,
                         key:self.state.key,
-                        semester:self.state.pSem,
                       }
                  self.setState({imgUrl:''})
                       self.props.getDetails(data)
@@ -129,18 +123,9 @@ onReg(e,str){
 onName(e,str){
   this.setState({pName:str})
 }
-onBranch(e,str){
-  this.setState({pBranch:str})
-  this.setState({branchCode:str})
-}
 onClass = (e,str) => {
   this.setState({pClass:str})
 }
-
-onSem = (e,str) => {
-  this.setState({pSem:str})
-}
-
 onMobile =(e,str) => {
   this.setState({pMobile:str})
 }
@@ -175,7 +160,7 @@ onSave(){
 
 showNotification(){
   notification.open({
-    message: 'Registration Number Already Present in '+this.state.branchCode+" !",
+    message: 'Roll Number Already Present in '+this.state.class+" !",
     description: 'If any Modifications has to be made, please delete the respected perticipant and enter the details again. ',
     icon: <Icon type="exclamation-circle" style={{ color: '#FF0000' }} />,
     duration: 6,
@@ -183,7 +168,6 @@ showNotification(){
 }
 
   render() {
-    const { previewVisible, previewImage, fileList } = this.state;
            const uploadButton = (
              <div>
                <Icon type="plus" />
@@ -203,12 +187,6 @@ showNotification(){
         errorText={this.state.error}
         value={this.state.pReg}
         onChange={this.onReg.bind(this)}
-      />
-      <TextField
-        errorText={this.state.error}
-        floatingLabelText="Semester"
-        value={this.state.pSem}
-        onChange={this.onSem.bind(this)} 
       />
       <TextField
         errorText={this.state.error}
@@ -245,12 +223,6 @@ showNotification(){
         floatingLabelText="Phone Number"
         value={this.state.pMobile}
         onChange={this.onMobile} 
-      />
-      <TextField
-        disabled={this.state.branchActive}
-        value={this.state.branchCode}
-        floatingLabelText="Branch Code"
-        onChange={this.onBranch.bind(this)}
       />
       <div style={{width:'22%',margin:'auto'}}>
         <Upload

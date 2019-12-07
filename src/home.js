@@ -217,30 +217,30 @@ onSubSave(){
   else {
     console.log("admin",this.state.adminView); //false if class teacher login.
 if (this.state.adminView) {
-  db.ref().child(this.state.partlist.branch).child(this.state.partlist.reg).set({
+  db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).set({
     name:that.state.partlist.name,
     photo:that.state.partlist.img,
     regno:that.state.partlist.reg,
-    semester:this.state.partlist.semester,
-    branch:that.state.partlist.branch,
+    class : that.state.partlist.class,
+    school : that.state.partlist.school,
   })
   if (this.state.eventlistind.length >= 1) {
-    db.ref().child(this.state.partlist.branch).child(this.state.partlist.reg).child('events').child('individual').set({
+    db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).child('events').child('individual').set({
       indlist:that.state.eventlistind
      })
   }
   else {
-    db.ref().child(this.state.partlist.branch).child(this.state.partlist.reg).child('events').child('individual').set({
+    db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).child('events').child('individual').set({
       indlist:null
      })
   }
     if (this.state.eventlistgrp.length >= 1) {
-      db.ref().child(this.state.partlist.branch).child(this.state.partlist.reg).child('events').child('group').set({
+      db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).child('events').child('group').set({
         grplist:that.state.eventlistgrp
        })
     }
     else {
-      db.ref().child(this.state.partlist.branch).child(this.state.partlist.reg).child('events').child('group').set({
+      db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).child('events').child('group').set({
         grplist:null
        })
     }
@@ -264,8 +264,6 @@ else {
     address:that.state.partlist.address,
     photo:that.state.partlist.img,
     regno:that.state.partlist.reg,
-    semester:this.state.partlist.semester,
-    branch:that.state.branchCode,
   })
   if (this.state.eventlistind.length >= 1) {
     db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).child('events').child('individual').set({
