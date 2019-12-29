@@ -85,23 +85,35 @@ onEnterUP(e, str){
 }
 onLogin(e){
   var that = this;
-  Auth.signInWithEmailAndPassword(this.state.uname, this.state.upass).then(function(data){
-    that.setState({mode:true}),
-    that.setState({logoutbtn:false} ),
-    that.setState({logoouttxt:'LOGOUT'}),
-    that.setState({flag:true})
-    db.ref('users').child(data.uid).once('value').then(function(data){
-      message.config({
-        top: 70,
-        duration: 5,
-      });
-      console.log("dataa",data.val())
-      message.info('Welcome '+data.val().name);
-      that.setState({branchCode:data.val().branch})
+  // Auth.signInWithEmailAndPassword(this.state.uname, this.state.upass).then(function(data){
+  //   that.setState({mode:true}),
+  //   that.setState({logoutbtn:false} ),
+  //   that.setState({logoouttxt:'LOGOUT'}),
+  //   that.setState({flag:true})
+  //   db.ref('users').child(data.uid).once('value').then(function(data){
+  //     message.config({
+  //       top: 70,
+  //       duration: 5,
+  //     });
+  //     console.log("dataa",data.val())
+  //     message.info('Welcome '+data.val().name);
+  //     that.setState({branchCode:data.val().branch})
+  //   })
+  // }).catch(function(error) {
+  //   that.setState({open:true})
+  //   });
+  db.ref('users').on("value" , function(data){
+    data.forEach(item => {
+      if(item.val().email === that.state.uname && item.val().password === that.state.upass){
+        that.setState({ mode : true , logoutbtn : false , logoouttxt : 'LOGOUT' , flag : true })
+        message.config({
+          top: 70,
+          duration: 5,
+        });
+        message.info('Welcome '+item.val().name);
+      }
     })
-  }).catch(function(error) {
-    that.setState({open:true})
-    });
+  })
 }
 ontogg(e){
   if(!this.state.view){
