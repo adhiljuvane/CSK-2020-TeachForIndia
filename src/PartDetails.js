@@ -1,8 +1,10 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import { Upload, Icon, message, Progress, notification} from 'antd';
-import {db,storage,Auth} from './config'
+import { Upload, Icon, message, Progress, notification , Select} from 'antd';
+import {db,storage,Auth} from './config';
+
+const { Option } = Select;
 
 
 export default class PartDetail extends React.Component {
@@ -19,10 +21,8 @@ export default class PartDetail extends React.Component {
         pReg:'', //remove
         pName:'',
         pClass : '',
-        pAge : '',
         pSchool : '',
         pTeacherInCharge : '',
-        pAddress : '',
         pMobile : '',
         imgUrl:'',
         key:'',
@@ -31,26 +31,22 @@ export default class PartDetail extends React.Component {
         progress:'',
         progress_vis:false,
         size:false,
+        schoolCode : '',
+        classCode : '',
+        students : [],
     }
   }
 
   componentDidMount(){
-    var that  = this
-    Auth.onAuthStateChanged(function(user) {
-    if (user) {
-    if(user.uid != 'vT00GEdpnKTuXiZlvAF2KJFgZ1j1' && !that.state.admin){
-    db.ref('users').child(user.uid).once('value').then(function(data){
-          that.setState({pClass : data.val().class , pSchool : data.val().school , pTeacherInCharge : data.val().name})
+    var that = this ;
+    this.setState({schoolCode : localStorage.getItem("schoolCode") , pSchool : localStorage.getItem("school") , pTeacherInCharge : localStorage.getItem("name") , classCode : localStorage.getItem("classCode") , pClass : localStorage.getItem("class") , pMobile : localStorage.getItem("mobile")});
+    db.ref('school').child(localStorage.getItem("schoolCode")).child(localStorage.getItem("classCode")).once("value", function(data){
+      let student = []
+      data.forEach(item => {
+        student.push(item.val());
       })
-    }
-    else{
-      that.setState({admin:true})
-      that.setState({branchActive:false})
-    }
-  } else {
-    // No user is signed in.
-  }
-});
+      that.setState({ students : student});
+    })
   }
 
 
@@ -75,6 +71,7 @@ export default class PartDetail extends React.Component {
 
 
 uploadFile(){
+  console.log("dssss")
   var self = this;
   fetch(this.state.img)
     .then(function(result){return result.blob()})
@@ -88,7 +85,7 @@ uploadFile(){
                         self.setState({progress_vis:true});
                         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                         console.log("reached progress",progress);
-                        self.setState({progress:Math.round(progress)});
+                        self.setState({progress:parseInt(Math.round(progress))});
                       }, function(error) {
 
                         }, function() {
@@ -103,8 +100,6 @@ uploadFile(){
                         mobile:self.state.pMobile,
                         class:self.state.pClass,
                         school:self.state.pSchool,
-                        address:self.state.pAddress,
-                        age:self.state.pAge,
                         img:self.state.imgUrl,
                         key:self.state.key,
                       }
@@ -120,8 +115,16 @@ onReg(e,str){
   this.setState({pReg:str})
   this.setState({size:false})
 }
-onName(e,str){
-  this.setState({pName:str})
+onName(value){
+  var that = this;
+  this.setState({pName:value})
+  db.ref('school').child(this.state.schoolCode).child(this.state.classCode).on("value",function(data){
+    data.forEach(item => {
+      if(item.val().studentName === value){
+        that.setState({pReg : item.val().studentId})
+      }
+    })
+  })
 }
 onClass = (e,str) => {
   this.setState({pClass:str})
@@ -133,12 +136,6 @@ onMobile =(e,str) => {
 onTeacherInCharge = (e,str) => {
   this.setState({pTeacherInCharge:str})
 }
-onAge = (e,str) => {
-  this.setState({pAge:str})
-}
-onAddres = (e,str) => {
-  this.setState({pAddress:str})
-}
 
 onSave(){
   var that = this;
@@ -146,7 +143,7 @@ onSave(){
   message.info('Enter Particiant Details');
   }
   else {
-  db.ref(this.state.pSchool).child(this.state.pClass).child(this.state.pReg).once('value').then(function(data){
+  db.ref(this.state.schoolCode).child(this.state.classCode).child(this.state.pReg).on('value' , function(data){
   if (data.val()) {
     that.showNotification();
     that.setState({size:true})
@@ -176,12 +173,12 @@ showNotification(){
            );
     return (
   <div>
-      <TextField
-        errorText={this.state.error}
-        floatingLabelText="Participant Name"
-        onChange={this.onName.bind(this)}
-        errorText=""
-      />
+      <Select placeholder="Select student" style={{width : "90%"}} onChange={this.onName.bind(this)} value={this.state.pName}>
+        {this.state.students.map((item,key) => {
+          console.log("sss", item.studentName);
+          return <Option key={key} value={item.studentName}>{item.studentName}</Option>
+        })}
+      </Select>
       <TextField
         floatingLabelText="Roll Number"
         errorText={this.state.error}
@@ -205,18 +202,6 @@ showNotification(){
         disabled={this.state.branchActive}
         floatingLabelText="Teacher-in-charge"
         value={this.state.pTeacherInCharge}
-      />
-      <TextField
-        errorText={this.state.error}
-        floatingLabelText="Age"
-        value={this.state.pAge}
-        onChange={this.onAge} 
-      />
-      <TextField
-        errorText={this.state.error}
-        floatingLabelText="Address"
-        value={this.state.pAddress}
-        onChange={this.onAddres} 
       />
       <TextField
         errorText={this.state.error}

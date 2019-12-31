@@ -47,7 +47,8 @@ class Home extends Component {
         eventlistind:[],
         eventlistgrp:[],
         partlist:[],
-        school : '',
+        school : '', // SCHOOL NAME
+        schoolCode : '',
         class : '',
         branchCode:'',
         branchCodeView:'',//for viewing dont touch
@@ -85,32 +86,23 @@ onEnterUP(e, str){
 }
 onLogin(e){
   var that = this;
-  // Auth.signInWithEmailAndPassword(this.state.uname, this.state.upass).then(function(data){
-  //   that.setState({mode:true}),
-  //   that.setState({logoutbtn:false} ),
-  //   that.setState({logoouttxt:'LOGOUT'}),
-  //   that.setState({flag:true})
-  //   db.ref('users').child(data.uid).once('value').then(function(data){
-  //     message.config({
-  //       top: 70,
-  //       duration: 5,
-  //     });
-  //     console.log("dataa",data.val())
-  //     message.info('Welcome '+data.val().name);
-  //     that.setState({branchCode:data.val().branch})
-  //   })
-  // }).catch(function(error) {
-  //   that.setState({open:true})
-  //   });
   db.ref('users').on("value" , function(data){
     data.forEach(item => {
       if(item.val().email === that.state.uname && item.val().password === that.state.upass){
         that.setState({ mode : true , logoutbtn : false , logoouttxt : 'LOGOUT' , flag : true })
+        that.setState({school : item.val().school , schoolCode :  item.val().schoolCode , class : item.val().class , classCode : item.val().classCode })
         message.config({
           top: 70,
           duration: 5,
         });
         message.info('Welcome '+item.val().name);
+        localStorage.setItem("name" , item.val().name);
+        localStorage.setItem("email" , item.val().email);
+        localStorage.setItem("class" , item.val().class);
+        localStorage.setItem("mobile" , item.val().mobile);
+        localStorage.setItem("schoolCode" , that.state.schoolCode);
+        localStorage.setItem("school" , item.val().school);
+        localStorage.setItem("classCode", item.val().classCode);
       }
     })
   })
