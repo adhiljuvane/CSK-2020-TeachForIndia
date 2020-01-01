@@ -61,7 +61,7 @@ setSearch(){
     }
     else{
       console.log("adassas" , this.props.school , this.props.class , this.props.search )
-  db.ref(this.props.school).child(this.props.class).child(this.props.search).child('events').child(this.props.type).child(this.props.list).once('value').then(function(data){
+  db.ref(this.props.schoolCode).child(this.props.classCode).child(this.props.search).child('events').child(this.props.type).child(this.props.list).once('value').then(function(data){
     ind = []
     data.forEach(function(child){
       //console.log("data",child);

@@ -20,10 +20,8 @@ export default class PartDetailsUser extends React.Component {
         pReg:'', 
         pName:'',
         pClass : '',
-        pAge : '',
         pSchool : '',
         pTeacherInCharge : '',
-        pAddress : '',
         pMobile : '',
         imgUrl:'',
         key:'',
@@ -147,19 +145,20 @@ setSearch(){
            });
     }
     else {
-     db.ref(this.props.school).child(this.props.class).child(this.props.id).once('value').then(function(data){
+     db.ref(this.props.schoolCode).child(this.props.classCode).child(this.props.id).once('value').then(function(data){
        console.log(data.val(), "right Data");
            that.setState({pName:data.val().name})
            that.setState({pReg:data.val().regno})
            that.setState({pClass:data.val().class})
+           that.setState({classCode :data.val().classCode})
+           that.setState({schoolCode : data.val().schoolCode})
            that.setState({pSchool : data.val().school})
-           that.setState({pAge : data.val().age})
-           that.setState({pAddress : data.val().address})
+           that.setState({pTeacherInCharge : data.val().pTeacherInCharge})
            that.setState({pMobile : data.val().mobile})
            that.setState({img:data.val().photo})
            that.setState({imgUrl:data.val().photo})
        }).catch(function(error) {
-         message.info('Participant Details not found');
+         message.info('Participant Details not found',error);
          that.clearData()
        });
      }
@@ -227,18 +226,6 @@ setSearch(){
       disabled={this.state.branchActive}
       floatingLabelText="Teacher-in-charge"
       value={this.state.pTeacherInCharge}
-    />
-    <TextField
-      errorText={this.state.error}
-      floatingLabelText="Age"
-      value={this.state.pAge}
-      onChange={this.onAge} 
-    />
-    <TextField
-      errorText={this.state.error}
-      floatingLabelText="Address"
-      value={this.state.pAddress}
-      onChange={this.onAddres} 
     />
     <TextField
       errorText={this.state.error}

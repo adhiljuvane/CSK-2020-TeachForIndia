@@ -165,17 +165,14 @@ onDetailsIndiv(inddata){
   console.log("Ind",inddata);
 for (var i = 0; i < inddata.length; i++) {
   db.ref('eventlist').child('Induvidual').child(inddata[i]).on('value',function(data){
-
       //console.log("data",child);
       var m = {
         key:inddata[i],
         id:data.val().id,
         name:data.val().name,
-
       }
       eventlistind.push(m)
       console.log("Vals", m);
-
   })
   this.setState({eventlistind})
 }
@@ -259,33 +256,33 @@ if (this.state.adminView) {
 
 }
 else {
-  db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).set({
+  db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).set({
     name:that.state.partlist.name,
     class:that.state.partlist.class,
+    classCode : that.state.partlist.classCode,
+    schoolCode : that.state.partlist.schoolCode,
     school:that.state.partlist.school,
-    age:that.state.partlist.age,
     mobile:that.state.partlist.mobile,
-    address:that.state.partlist.address,
     photo:that.state.partlist.img,
     regno:that.state.partlist.reg,
   })
   if (this.state.eventlistind.length >= 1) {
-    db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).child('events').child('individual').set({
+    db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('individual').set({
       indlist:that.state.eventlistind
      })
   }
   else {
-    db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).child('events').child('individual').set({
+    db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('individual').set({
       indlist:null
      })
   }
   if (this.state.eventlistgrp.length >= 1) {
-    db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).child('events').child('group').set({
+    db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('group').set({
       grplist:that.state.eventlistgrp
      })
   }
   else {
-    db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).child('events').child('group').set({
+    db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('group').set({
       grplist:null
      })
   }
@@ -324,9 +321,10 @@ if(this.state.searchID > 0){
   });
   }
 else {
-  db.ref(this.state.school).child(this.state.class).child(this.state.searchID).remove().then(function() {
+  db.ref(this.state.schoolCode).child(this.state.classCode).child(this.state.searchID).remove().then(function() {
         message.info('Participant Deleted');
 }).catch(function(error) {
+  console.log("error",error)
   message.config({
   top: 70,
   duration: 5,
@@ -441,11 +439,11 @@ else {
                           <Row className="show-grid">
                             <Col md={6}>
                               <h3>Individual Events</h3>
-                              <EventListView type="individual" branchc={this.state.branchCodeView} school={this.state.school} class={this.state.class} search={this.state.searchID} list="indlist" adminList={this.state.value}/>
+                              <EventListView type="individual" school={this.state.schoolCode} class={this.state.classCode} search={this.state.searchID} list="indlist" adminList={this.state.value}/>
                             </Col>
                             <Col md={6}>
                               <h3>Group Events</h3>
-                              <EventListView type="group" branchc={this.state.branchCodeView} school={this.state.school} class={this.state.class} search={this.state.searchID} list="grplist" adminList={this.state.value}/>
+                              <EventListView type="group" school={this.state.schoolCode} class={this.state.classCode} search={this.state.searchID} list="grplist" adminList={this.state.value}/>
                             </Col>
                           </Row>
                           <br/><br/>
@@ -454,7 +452,7 @@ else {
                       <Col md={4} style={{marginTop:40}}>
                         <Card style={{width:'auto', height:'auto', textAlign:'center'}}>
                           <CardTitle title="Particiant Details"/>
-                          <PartDetailsUser id={this.state.searchID} school={this.state.school} class={this.state.class} adminList={this.state.value}/>
+                          <PartDetailsUser id={this.state.searchID} schoolCode={this.state.schoolCode} classCode={this.state.classCode} adminList={this.state.value}/>
                         </Card>
                       </Col>
                     </Row>

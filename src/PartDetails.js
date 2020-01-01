@@ -87,7 +87,7 @@ uploadFile(){
                         console.log("reached progress",progress);
                         self.setState({progress:parseInt(Math.round(progress))});
                       }, function(error) {
-
+                          console.log("eerrror in photo upload" ,error)
                         }, function() {
                       // Upload completed successfully, now we can get the download URL
                       var downloadURL = uploadTask.snapshot.downloadURL;
@@ -100,11 +100,15 @@ uploadFile(){
                         mobile:self.state.pMobile,
                         class:self.state.pClass,
                         school:self.state.pSchool,
+                        schoolCode : self.state.schoolCode,
+                        classCode : self.state.classCode,
+                        pTeacherInCharge : self.state.pTeacherInCharge,
                         img:self.state.imgUrl,
                         key:self.state.key,
                       }
                  self.setState({imgUrl:''})
                       self.props.getDetails(data)
+                      self.setState({size : true})
                     //  self.setState({branchActive:true})
                     });
     })
@@ -144,7 +148,7 @@ onSave(){
   }
   else {
   db.ref(this.state.schoolCode).child(this.state.classCode).child(this.state.pReg).on('value' , function(data){
-  if (data.val()) {
+  if (data.val()!==null) {
     that.showNotification();
     that.setState({size:true})
   }
@@ -157,7 +161,7 @@ onSave(){
 
 showNotification(){
   notification.open({
-    message: 'Roll Number Already Present in '+this.state.class+" !",
+    message: 'Roll Number Already Present in '+this.state.classCode+" !",
     description: 'If any Modifications has to be made, please delete the respected perticipant and enter the details again. ',
     icon: <Icon type="exclamation-circle" style={{ color: '#FF0000' }} />,
     duration: 6,
@@ -175,7 +179,6 @@ showNotification(){
   <div>
       <Select placeholder="Select student" style={{width : "90%"}} onChange={this.onName.bind(this)} value={this.state.pName}>
         {this.state.students.map((item,key) => {
-          console.log("sss", item.studentName);
           return <Option key={key} value={item.studentName}>{item.studentName}</Option>
         })}
       </Select>
