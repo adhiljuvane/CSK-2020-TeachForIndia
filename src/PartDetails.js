@@ -222,7 +222,7 @@ showNotification(){
         >
           {this.state.img ? <img src={this.state.img} width='100%' alt="dfbgd" /> : uploadButton}
         </Upload>
-        <Progress type="circle" percent={this.state.progress} showInfo={this.state.progress_vis} width={80} style={{marginBottom : "8px"}}/>
+        <Progress type="circle" percent={parseInt(this.state.progress)} showInfo={this.state.progress_vis} width={80} style={{marginBottom : "8px"}}/>
       </div>
       <RaisedButton label="Save" primary={true} onClick={this.onSave.bind(this)} disabled={this.state.size}/><br /><br />
     </div>

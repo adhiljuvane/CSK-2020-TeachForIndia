@@ -8,6 +8,7 @@ import {Auth , db} from './config'
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
+import "./Print.css"
 
 export default class Print extends React.Component {
   constructor(props) {
@@ -16,12 +17,13 @@ export default class Print extends React.Component {
     this.state = {
 
       data:[],
-      branchCode:'',
+      classCode:'',
+      schoolCode : '',
       school : '',
       class : '',
       admin:false,
       showPrint:false,
-      branchActive:true,
+      classActive : true ,
       teacherInCharge : '',
       value:'',
       background:'../background.jpg',
@@ -31,22 +33,12 @@ export default class Print extends React.Component {
 
 componentDidMount(){
   var that  = this
-  Auth.onAuthStateChanged(function(user) {
-    if (user) {
-      if(user.uid != 'vT00GEdpnKTuXiZlvAF2KJFgZ1j1' && !that.state.admin){
-        db.ref('users').child(user.uid).once('value').then(function(data){
-          that.setState({branchCode:data.val().branch , school : data.val().school , class : data.val().class , teacherInCharge : data.val().name})
-        })
-      }
-      else{
-        that.setState({admin:true})
-        that.setState({branchCode:''})
-      }
-  } else {
-    // No user is signed in.
-  }
-});
-  }
+  db.ref(localStorage.getItem('schoolCode')).child(localStorage.getItem('classCode')).on("value", function(data){
+    if(data){
+      that.setState({class : localStorage.getItem("class") , school : localStorage.getItem("school") , schoolCode : localStorage.getItem('schoolCode') , classCode : localStorage.getItem('classCode')});
+    }
+  })
+}
 
   handleChange(e,index,value){
     console.log("val",value);
@@ -60,7 +52,7 @@ componentDidMount(){
         message.info('Class Not Found');
     }
     else {
-      db.ref().child(this.state.school).child(this.state.class).on('value',function(data){
+      db.ref(this.state.schoolCode).child(this.state.classCode).on('value',function(data){
         data.forEach(function(child){
           var d = {
             name:child.val().name,
@@ -108,23 +100,26 @@ componentDidMount(){
     const array = this.state.data
     for (var i = 0; i < array.length; i++) {
       items.push(
-        <div className="IndIdCard" style={{ border:1, borderStyle:'dashed', padding:30, height:550, width:420 , backgroundImage: `url(${backgroundImage})`, backgroundSize: '450px' , backgroundRepeat : "no-repeat" , backgroundPosition : "center" }}>
+        <div className="IndIdCard">
           <div>
-            <div style={{display : "flex" , width : "100%" , justifyContent : "center" , alignItems : "center" , fontSize : "45px"}}>Participant</div>
-            <div style={{display : "flex" , flexDirection : "row" , justifyContent : "space-around" , marginBottom : "17px"}}>
-              <div style={{display : "flex" , alignItems :"center"}}><img src={array[i].photo}  width="150px" height="150px" /></div>
-              <div style={{marginTop:10}}>
-                <h5>Name: {array[i].name}</h5>
-                <h5 id="regno">Roll No: {array[i].regno}</h5>
-                <h5 id="semester">School: {array[i].school}</h5>
-                <h5 id="branch">Class: {array[i].class}</h5>
+          <div style={{display : "flex" , width : "100%" , justifyContent : "center" , alignItems : "center" , fontSize : "45px"}}>Participant</div>
+          <div style={{display : "flex" , width : "100%" , justifyContent : "center" , alignItems : "center" , fontSize : "25px"}}>Chennai Students Kondattam</div>
+            <div style={{display : "flex" , flexDirection : "column" , justifyContent : "space-around" , marginBottom : "17px" , justifyContent : "center" , alignItems : "center"}}>
+              <div style={{display : "flex" , alignItems :"center" ,  borderRadius : "150px"}}>
+                <img src={array[i].photo}  width="150px" height="150px" style={{ borderRadius : "150px"}}/>
+              </div>
+              <div style={{marginTop:10 , color : "#fff"}}>
+                <h5 style={{color : "#fff"}}>Name: {array[i].name}</h5>
+                <h5 id="regno" style={{color : "#fff"}}>Roll No: {array[i].regno}</h5>
+                <h5 id="semester" style={{color : "#fff"}}>School: {array[i].school}</h5>
+                <h5 id="branch" style={{color : "#fff"}}>Class: {array[i].class}</h5>
               </div>
             </div>
           </div>
           <div>
-            <div>
+            <div style={{display : "flex" , flexDirection : "row" , justifyContent : "space-around" , width : "420px"}}>
               <div style={{marginBottom : "24px"}}>
-                <h4>Individual</h4>
+                <h4 style={{color : "#fff"}}>Individual</h4>
                   {
                     array[i].events.individual!=null?
                     array[i].events.individual.indlist.map((item,i) => <li key={i}>{item.name}</li>)
@@ -132,7 +127,7 @@ componentDidMount(){
                 }
               </div>
               <div>
-                <h4>Group</h4>
+                <h4 style={{color : "#fff"}}>Group</h4>
               {
                 array[i].events.group!=null?
                 array[i].events.group.grplist.map((item,i) => <li key={i}>{item.name}</li>)
@@ -148,6 +143,9 @@ componentDidMount(){
 
   return (
     <div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+          <path fill="#ed6a5a" fillOpacity="1" d="M0,32L60,37.3C120,43,240,53,360,58.7C480,64,600,64,720,80C840,96,960,128,1080,128C1200,128,1320,96,1380,80L1440,64L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+        </svg>
       {this.state.showPrint?
         <div className="A3 landscape" >
           <section className="sheet padding-5mm" style={{margin:'auto'}}>
@@ -177,11 +175,11 @@ componentDidMount(){
             <Button type="primary" shape="circle" icon="printer" size='large' onClick={this.printadmin.bind(this)}/>
           </div>
         :
-          <div>
+          <div style={{marginTop : "-120px"}}>
             <div style={{marginLeft:30 , marginTop : 10}}>{this.state.school}</div>
             <TextField
               floatingLabelText="Class"
-              disabled={this.state.branchActive}
+              disabled={this.state.classActive}
               value={this.state.class} style={{marginLeft:30}}
             />
             <Button type="primary" shape="circle" icon="printer" size='large' onClick={this.print.bind(this)}/>

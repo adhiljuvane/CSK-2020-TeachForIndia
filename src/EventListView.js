@@ -87,21 +87,24 @@ console.log("ind", ind);
     console.log("key",key);
     db.ref('eventlist').child(this.props.type).child(key).remove()
      message.info('Event Deleted.');
-}
+  }
 
+  loadFunc = () => {
+    //No use for this function.
+  }
 
 
   render() {
-
     var data =[]
     data = this.state.ind;
-
     return (
       <div style={{margin:10}}>
       <FloatingActionButton mini={true} secondary={true} onClick={this.setSearch.bind(this)}>
         <ContentAdd />
       </FloatingActionButton><br />
-        <InfiniteScroll>
+        <InfiniteScroll
+          loadMore={this.loadFunc()}
+        >
 
             <List
             bordered={true}

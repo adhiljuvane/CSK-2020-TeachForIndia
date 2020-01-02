@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css?family=Kulim+Park&display=swap');
+
+.IndIdCard{
+    background-image : url(./wave.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    color : #fff ;
+    border : 1px;
+    border-style : dashed;
+    padding : 30px ;
+    font-family: 'Kulim Park', sans-serif;
+    height : 550px ;
+    width : 420px ;
+    display : flex ;
+    flex-direction : column ;
+    justify-content : center ;
+    align-items : center ;
+}
+
+.IndCard h5{
+    color : #fff ;
+}
+
+.IndCard img{
+    border-radius : 150px ;
+}
+
