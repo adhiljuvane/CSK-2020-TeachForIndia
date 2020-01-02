@@ -60,19 +60,20 @@ setSearch(){
       });
     }
     else{
-      console.log("adassas" , this.props.school , this.props.class , this.props.search )
-  db.ref(this.props.schoolCode).child(this.props.classCode).child(this.props.search).child('events').child(this.props.type).child(this.props.list).once('value').then(function(data){
-    ind = []
-    data.forEach(function(child){
+      var that = this ;
+      console.log("adassas" , this.props.schoolCode , this.props.class , this.props.search , this.props.type , this.props.list)
+      db.ref(this.props.schoolCode).child(this.props.classCode).child(this.props.search).child('events').child(this.props.type).child(this.props.list).once('value').then(function(data){
+      ind = []
+      data.forEach(function(child){
       //console.log("data",child);
-      var m = {
-        key:child.key,
-        id:child.val().id,
-        name:child.val().name,
-        cat:child.val().type
-      }
+        var m = {
+          key:child.key,
+          id:child.val().id,
+          name:child.val().name,
+          cat:that.props.type
+        }
       ind.push(m)
-    })
+      })
 console.log("ind", ind);
     that.setState({ind})
   }).catch(function(error) {

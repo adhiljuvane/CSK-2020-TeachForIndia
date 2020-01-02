@@ -187,6 +187,7 @@ showNotification(){
         errorText={this.state.error}
         value={this.state.pReg}
         onChange={this.onReg.bind(this)}
+        disabled={this.state.branchActive}
       />
       <TextField
         errorText={this.state.error}

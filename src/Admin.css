@@ -1,0 +1,37 @@
+.curved{
+    background-color: #0099ff;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    justify-content: center ;
+    flex-direction: column;
+}
+
+.curved h1{
+    font-size: 4rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+    color: #fff;
+}
+
+.curvedAdmin{
+    background-color: #f7b2b7;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    justify-content: center ;
+    flex-direction: column;
+}
+
+.curvedAdmin h1{
+    font-size: 4rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+    color: #fff;
+}
+
+.curved svg{
+    display: block;
+}
+
+.curvedAdmin svg{
+    display: block;
+}

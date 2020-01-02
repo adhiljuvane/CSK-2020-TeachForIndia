@@ -24,7 +24,7 @@ import EventListUser from './EventlistUser'
 import EventListView from './EventListView'
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-import { Link } from 'react-router-dom'
+import { Link , Redirect } from 'react-router-dom'
 
 class Home extends Component {
   constructor(props){
@@ -86,26 +86,38 @@ onEnterUP(e, str){
 }
 onLogin(e){
   var that = this;
-  db.ref('users').on("value" , function(data){
-    data.forEach(item => {
-      if(item.val().email === that.state.uname && item.val().password === that.state.upass){
-        that.setState({ mode : true , logoutbtn : false , logoouttxt : 'LOGOUT' , flag : true })
-        that.setState({school : item.val().school , schoolCode :  item.val().schoolCode , class : item.val().class , classCode : item.val().classCode })
-        message.config({
-          top: 70,
-          duration: 5,
-        });
-        message.info('Welcome '+item.val().name);
-        localStorage.setItem("name" , item.val().name);
-        localStorage.setItem("email" , item.val().email);
-        localStorage.setItem("class" , item.val().class);
-        localStorage.setItem("mobile" , item.val().mobile);
-        localStorage.setItem("schoolCode" , that.state.schoolCode);
-        localStorage.setItem("school" , item.val().school);
-        localStorage.setItem("classCode", item.val().classCode);
-      }
+  if(this.state.uname === "anantharaman.g2018@teachforindia.org" && this.state.upass === "C$kadm!n"){
+    localStorage.setItem("admin", true);
+    this.setState({admin : true});
+    message.config({
+      top: 70,
+      duration: 5,
+    });
+    message.info('Welcome Admin');
+  }
+  else{
+    db.ref('users').on("value" , function(data){
+      data.forEach(item => {
+        if(item.val().email === that.state.uname && item.val().password === that.state.upass){
+          that.setState({ mode : true , logoutbtn : false , logoouttxt : 'LOGOUT' , flag : true })
+          that.setState({school : item.val().school , schoolCode :  item.val().schoolCode , class : item.val().class , classCode : item.val().classCode })
+          message.config({
+            top: 70,
+            duration: 5,
+          });
+          message.info('Welcome '+item.val().name);
+          localStorage.setItem("name" , item.val().name);
+          localStorage.setItem("email" , item.val().email);
+          localStorage.setItem("class" , item.val().class);
+          localStorage.setItem("mobile" , item.val().mobile);
+          localStorage.setItem("schoolCode" , that.state.schoolCode);
+          localStorage.setItem("school" , item.val().school);
+          localStorage.setItem("classCode", item.val().classCode);
+          localStorage.setItem("admin", false);
+        }
+      })
     })
-  })
+  }
 }
 ontogg(e){
   if(!this.state.view){
@@ -129,7 +141,6 @@ ontogg2(e){
 }
 onLogoutclk(e){
 var that = this
-  Auth.signOut().then(function() {
     that.setState({logoutbtn:true})
     that.setState({logoouttxt:''})
     that.setState({mode:false})
@@ -146,9 +157,13 @@ var that = this
     that.setState({view:false})
     that.setState({togg:'View & Edit'})
     message.info('Logged Out!');
-}).catch(function(error) {
-  message.info('Logged Out Failed');
-});
+    localStorage.removeItem('class');
+    localStorage.removeItem('classCode');
+    localStorage.removeItem('school');
+    localStorage.removeItem('email');
+    localStorage.removeItem('mobile');
+    localStorage.removeItem('name');
+    localStorage.removeItem('schoolCode');
 }
 snack(e){
   this.setState({open:false})
@@ -321,8 +336,11 @@ if(this.state.searchID > 0){
   });
   }
 else {
+  var that = this ;
   db.ref(this.state.schoolCode).child(this.state.classCode).child(this.state.searchID).remove().then(function() {
-        message.info('Participant Deleted');
+      message.info('Participant Deleted');
+      that.setState({togg:'View & Edit'})
+      that.setState({view:false})
 }).catch(function(error) {
   console.log("error",error)
   message.config({
@@ -339,6 +357,9 @@ else {
 }
 
   render(){
+    if(this.state.admin === true){
+      return <Redirect to="/admin"/>
+    }
     const actions = [
          <FlatButton
            label="Cancel"
@@ -353,8 +374,9 @@ else {
          />,
            ];
     return(
-      <div>
+      <div style={{height : "100vh"}}>
         <AppBar
+          style={{backgroundColor : "#0099ff"}}
           title="Chennai Students Kondattam 2020"
           showMenuIconButton={false}
           iconElementRight={<FlatButton label={this.state.logoouttxt} disabled={this.state.logoutbtn} onClick={(this.onLogoutclk.bind(this))}/>}
@@ -439,11 +461,11 @@ else {
                           <Row className="show-grid">
                             <Col md={6}>
                               <h3>Individual Events</h3>
-                              <EventListView type="individual" school={this.state.schoolCode} class={this.state.classCode} search={this.state.searchID} list="indlist" adminList={this.state.value}/>
+                              <EventListView type="individual" schoolCode={this.state.schoolCode} classCode={this.state.classCode} search={this.state.searchID} list="indlist" adminList={this.state.value}/>
                             </Col>
                             <Col md={6}>
                               <h3>Group Events</h3>
-                              <EventListView type="group" school={this.state.schoolCode} class={this.state.classCode} search={this.state.searchID} list="grplist" adminList={this.state.value}/>
+                              <EventListView type="group" schoolCode={this.state.schoolCode} classCode={this.state.classCode} search={this.state.searchID} list="grplist" adminList={this.state.value}/>
                             </Col>
                           </Row>
                           <br/><br/>
@@ -488,6 +510,7 @@ else {
           }
       </Grid>
       :
+      <div style={{display : "flex" , flexDirection : "column" , justifyContent : "space-between" , height : "91vh"}}>
       <Grid >
        <Row className="show-grid">
          <Col md={12} style={{marginTop:40,marginLeft:'auto', width:'50%'}}>
@@ -500,6 +523,10 @@ else {
           </Col>
         </Row>
       </Grid>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 315" >
+        <path fill="#0099ff" fill-opacity="1" d="M0,160L60,144C120,128,240,96,360,80C480,64,600,64,720,80C840,96,960,128,1080,122.7C1200,117,1320,75,1380,53.3L1440,32L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"/>
+      </svg>
+      </div>
     }
 
     <Snackbar
@@ -508,9 +535,7 @@ else {
    autoHideDuration={4000}
    onRequestClose={this.snack.bind(this)}
    />
-
-      </div>
-
+  </div>
     )
   }
 }

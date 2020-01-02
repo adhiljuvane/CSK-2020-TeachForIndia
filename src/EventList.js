@@ -43,6 +43,7 @@ export default class EventList extends React.Component {
     }
     else{
       this.props.getDetails(this.state.targetKeys)
+      message.success("Events Added");
     }
   }
 

@@ -33,25 +33,7 @@ export default class PartDetailsUser extends React.Component {
   }
 
   componentDidMount(){
-var that  = this
-    Auth.onAuthStateChanged(function(user) {
-  if (user) {
-    if(user.uid != 'vT00GEdpnKTuXiZlvAF2KJFgZ1j1' && !that.state.admin){
-    db.ref('users').child(user.uid).once('value').then(function(data){
-          var who = data.val().branch
-          that.setState({ pTeacherInCharge : data.val().name})
-      })
-    }
-    else{
-      that.setState({admin:true})
-      that.setState({branchActive:false})
-    }
-  } else {
-    // No user is signed in.
-  }
-});
-
-
+    this.setState({pTeacherInCharge : localStorage.getItem('name')});
   }
 
 
@@ -153,7 +135,7 @@ setSearch(){
            that.setState({classCode :data.val().classCode})
            that.setState({schoolCode : data.val().schoolCode})
            that.setState({pSchool : data.val().school})
-           that.setState({pTeacherInCharge : data.val().pTeacherInCharge})
+           that.setState({pTeacherInCharge : localStorage.getItem('name')})
            that.setState({pMobile : data.val().mobile})
            that.setState({img:data.val().photo})
            that.setState({imgUrl:data.val().photo})
