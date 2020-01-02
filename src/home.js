@@ -96,11 +96,11 @@ onLogin(e){
     message.info('Welcome Admin');
   }
   else{
+    var that = this ;
     db.ref('users').on("value" , function(data){
       data.forEach(item => {
         if(item.val().email === that.state.uname && item.val().password === that.state.upass){
-          that.setState({ mode : true , logoutbtn : false , logoouttxt : 'LOGOUT' , flag : true })
-          that.setState({school : item.val().school , schoolCode :  item.val().schoolCode , class : item.val().class , classCode : item.val().classCode })
+          that.setState({ logoutbtn : false , logoouttxt : 'LOGOUT' , flag : true , school : item.val().school , schoolCode :  item.val().schoolCode , class : item.val().class , classCode : item.val().classCode })
           message.config({
             top: 70,
             duration: 5,
@@ -110,10 +110,11 @@ onLogin(e){
           localStorage.setItem("email" , item.val().email);
           localStorage.setItem("class" , item.val().class);
           localStorage.setItem("mobile" , item.val().mobile);
-          localStorage.setItem("schoolCode" , that.state.schoolCode);
+          localStorage.setItem("schoolCode" , item.val().schoolCode);
           localStorage.setItem("school" , item.val().school);
           localStorage.setItem("classCode", item.val().classCode);
           localStorage.setItem("admin", false);
+          that.setState({ mode : true })
         }
       })
     })
@@ -376,11 +377,14 @@ else {
     return(
       <div style={{height : "100vh"}}>
         <AppBar
-          style={{backgroundColor : "#0099ff"}}
+          style={{backgroundColor : "#ed6a5a"}}
           title="Chennai Students Kondattam 2020"
           showMenuIconButton={false}
           iconElementRight={<FlatButton label={this.state.logoouttxt} disabled={this.state.logoutbtn} onClick={(this.onLogoutclk.bind(this))}/>}
         />
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+          <path fill="#ed6a5a" fill-opacity="1" d="M0,32L60,37.3C120,43,240,53,360,58.7C480,64,600,64,720,80C840,96,960,128,1080,128C1200,128,1320,96,1380,80L1440,64L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+        </svg>
       {this.state.mode?
         <Grid fluid='true'>
           <Toggle
@@ -510,7 +514,7 @@ else {
           }
       </Grid>
       :
-      <div style={{display : "flex" , flexDirection : "column" , justifyContent : "space-between" , height : "91vh"}}>
+      <div style={{display : "flex" , flexDirection : "column" , justifyContent : "space-between" , marginTop : "-60px"}}>
       <Grid >
        <Row className="show-grid">
          <Col md={12} style={{marginTop:40,marginLeft:'auto', width:'50%'}}>
@@ -523,9 +527,6 @@ else {
           </Col>
         </Row>
       </Grid>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 315" >
-        <path fill="#0099ff" fill-opacity="1" d="M0,160L60,144C120,128,240,96,360,80C480,64,600,64,720,80C840,96,960,128,1080,122.7C1200,117,1320,75,1380,53.3L1440,32L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"/>
-      </svg>
       </div>
     }
 
