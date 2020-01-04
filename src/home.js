@@ -12,6 +12,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Snackbar from 'material-ui/Snackbar';
 import Toggle from 'material-ui/Toggle';
 import EventList from './EventList'
+import Events from "./Events";
 import EventListAdmin from './EventListAdmin'
 import EventListGroup from './EventListGroup'
 import PartDetails from './PartDetails'
@@ -44,8 +45,11 @@ class Home extends Component {
         regview:false, //for admin
         flag:false,
         openModal:false,
-        eventlistind:[],
-        eventlistgrp:[],
+        eventlistind:[],  //REMOVE
+        eventlistgrp:[],   //REMOVE
+        eventListSlot1 : [],
+        eventListSlot2 : [],
+        eventListSlot3 : [],
         partlist:[],
         school : '', // SCHOOL NAME
         schoolCode : '',
@@ -158,43 +162,120 @@ onDetails(data){
   this.setState({partlist:data})
   console.log("dataa",data);
 }
-onDetailsIndiv(inddata){
-  this.setState({eventlistind:''})
-  var eventlistind = []
-  console.log("Ind",inddata);
-for (var i = 0; i < inddata.length; i++) {
-  db.ref('eventlist').child('Induvidual').child(inddata[i]).on('value',function(data){
-      //console.log("data",child);
+
+// onDetailsIndiv(inddata){
+//   this.setState({eventlistind:''})
+//   var eventlistind = []
+//   console.log("Ind",inddata);
+// for (var i = 0; i < inddata.length; i++) {
+//   db.ref('eventlist').child('Induvidual').child(inddata[i]).on('value',function(data){
+//       //console.log("data",child);
+//       var m = {
+//         key:inddata[i],
+//         id:data.val().id,
+//         name:data.val().name,
+//       }
+//       eventlistind.push(m)
+//       console.log("Vals", m);
+//   })
+//   this.setState({eventlistind})
+// }
+// }
+// onDetailsGrp(grpdata){
+//   this.setState({eventlistgrp:''})
+//   var eventlistgrp = []
+//   for (var i = 0; i < grpdata.length; i++) {
+//     db.ref('eventlist').child('Group').child(grpdata[i]).on('value',function(data){
+//         var m = {
+//           key:grpdata[i],
+//           id:data.val().id,
+//           name:data.val().name,
+//         }
+//         eventlistgrp.push(m)
+//         console.log("Vals", m);
+//     })
+//     this.setState({eventlistgrp})
+//   }
+// }
+
+onDetailsSlot1(slot1Data){
+  this.setState({eventListSlot1 : ''})
+  var eventListSlot1 = []
+  let sec = "primary"
+  if(parseInt(localStorage.getItem('class'))>=5){
+      sec = "secondary";
+  }else{
+      sec="primary";
+  }
+  for(var i = 0 ; i<slot1Data.length ; i++){
+    db.ref('events').child(sec).child('slot1').child(slot1Data[i]).on('value',function(data){
       var m = {
-        key:inddata[i],
-        id:data.val().id,
-        name:data.val().name,
+        eventCategory : data.val().eventCategory,
+        eventCode : data.val().eventCode,
+        eventDescription : data.val().eventDescription,
+        eventName : data.val().eventName,
+        indOrGroup : data.val().indOrGroup,
+        maxNoPart : data.val().maxNoPart,
+        Strict : data.val().Strict,
+        key : data.val().eventCode
       }
-      eventlistind.push(m)
-      console.log("Vals", m);
-  })
-  this.setState({eventlistind})
-}
-}
-onDetailsGrp(grpdata){
-  this.setState({eventlistgrp:''})
-  var eventlistgrp = []
-  console.log("Grp",grpdata);
-  for (var i = 0; i < grpdata.length; i++) {
-    db.ref('eventlist').child('Group').child(grpdata[i]).on('value',function(data){
-
-        //console.log("data",child);
-        var m = {
-          key:grpdata[i],
-          id:data.val().id,
-          name:data.val().name,
-
-        }
-        eventlistgrp.push(m)
-        console.log("Vals", m);
-
+      eventListSlot1.push(m);
     })
-    this.setState({eventlistgrp})
+    this.setState({eventListSlot1})
+  }
+}
+
+onDetailsSlot2(slot2Data){
+  this.setState({eventListSlot2 : ''})
+  var eventListSlot2 = []
+  let sec = "primary"
+  if(parseInt(localStorage.getItem('class'))>=5){
+      sec = "secondary";
+  }else{
+      sec="primary";
+  }
+  for(var i = 0 ; i<slot2Data.length ; i++){
+    db.ref('events').child(sec).child('slot2').child(slot2Data[i]).on('value',function(data){
+      var m = {
+        eventCategory : data.val().eventCategory,
+        eventCode : data.val().eventCode,
+        eventDescription : data.val().eventDescription,
+        eventName : data.val().eventName,
+        indOrGroup : data.val().indOrGroup,
+        maxNoPart : data.val().maxNoPart,
+        Strict : data.val().Strict,
+        key : data.val().eventCode
+      }
+      eventListSlot2.push(m);
+    })
+    this.setState({eventListSlot2})
+  }
+}
+
+onDetailsSlot3(slot3Data){
+  this.setState({eventListSlot3 : ''})
+  var eventListSlot3 = []
+  let sec = "primary"
+  if(parseInt(localStorage.getItem('class'))>=5){
+      sec = "secondary";
+  }else{
+      sec="primary";
+  }
+  for(var i = 0 ; i<slot3Data.length ; i++){
+    db.ref('events').child(sec).child('slot3').child(slot3Data[i]).on('value',function(data){
+      var m = {
+        eventCategory : data.val().eventCategory,
+        eventCode : data.val().eventCode,
+        eventDescription : data.val().eventDescription,
+        eventName : data.val().eventName,
+        indOrGroup : data.val().indOrGroup,
+        maxNoPart : data.val().maxNoPart,
+        Strict : data.val().Strict,
+        key : data.val().eventCode
+      }
+      eventListSlot3.push(m);
+    })
+    this.setState({eventListSlot3})
   }
 }
 
@@ -208,8 +289,8 @@ openmodal(){
 
 onSubSave(){
   var that = this
-  if ((this.state.eventlistind.length < 1) && (this.state.eventlistgrp.length < 1)) {
-        message.info('Enter the Event Details or Press the Send Button in the Event list');
+  if ((this.state.eventListSlot1.length < 1) && (this.state.eventListSlot2.length < 1) && (this.state.eventListSlot3.length < 1)) {
+      message.info('Enter the Event Details or Press the Send Button in the Event list');
   }
   else if (this.state.partlist.length < 1) {
     message.info('Enter Particiant Details');
@@ -265,24 +346,39 @@ else {
     photo:that.state.partlist.img,
     regno:that.state.partlist.reg,
   })
-  if (this.state.eventlistind.length >= 1) {
-    db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('individual').set({
-      indlist:that.state.eventlistind
+  if (this.state.eventListSlot1.length >= 1) {
+    console.log("log" , this.state.partlist.schoolCode)
+    console.log("log" , this.state.partlist.classCode)
+    console.log("log" , that.state.partlist.reg)
+    console.log("log" , that.state.eventListSlot1[0])
+
+    db.ref(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('eventListSlot1').set({
+      eventListSlot1:that.state.eventListSlot1[0]
      })
   }
   else {
-    db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('individual').set({
-      indlist:null
+    db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('eventListSlot1').set({
+      eventListSlot1:null
      })
   }
-  if (this.state.eventlistgrp.length >= 1) {
-    db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('group').set({
-      grplist:that.state.eventlistgrp
+  if (this.state.eventListSlot2.length >= 1) {
+    db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('eventListSlot2').set({
+      eventListSlot2:that.state.eventListSlot2[0]
      })
   }
   else {
-    db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('group').set({
-      grplist:null
+    db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('eventListSlot2').set({
+      eventListSlot2:null
+     })
+  }
+  if (this.state.eventListSlot3.length >= 1) {
+    db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('eventListSlot3').set({
+      eventListSlot3:that.state.eventListSlot3[0]
+     })
+  }
+  else {
+    db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('eventListSlot3').set({
+      eventListSlot3:null
      })
   }
      message.config({
@@ -392,13 +488,17 @@ else {
                           <Card style={{width:'auto', heigh:'auto', textAlign:'center'}}>
                             <CardTitle title="Event List"/>
                             <Row className="show-grid">
-                              <Col md={6}>
-                                <h3>Individual Events</h3>
-                                <EventList type="Induvidual" getDetails={this.onDetailsIndiv.bind(this)}/>
+                              <Col md={4}>
+                                <h3>Slot 1 Events</h3>
+                                <Events type="slot1" getDetails={this.onDetailsSlot1.bind(this)}/>
                               </Col>
-                              <Col md={6}>
+                              <Col md={4}>
+                                <h3>Slot 2 Events</h3>
+                                <Events type="slot2" getDetails={this.onDetailsSlot2.bind(this)}/>
+                              </Col>
+                              <Col md={4}>
                                 <h3>Group Events</h3>
-                                <EventList type="Group" getDetails={this.onDetailsGrp.bind(this)} />
+                                <Events type="slot3" getDetails={this.onDetailsSlot3.bind(this)}/>
                               </Col>
                             </Row>
                             <br/><br />
@@ -446,11 +546,11 @@ else {
                         <Card style={{width:'auto', heigh:'auto', textAlign:'center'}}>
                           <CardTitle title="Event List"/>
                           <Row className="show-grid">
-                            <Col md={6}>
+                            <Col md={4}>
                               <h3>Individual Events</h3>
                               <EventListView type="individual" schoolCode={this.state.schoolCode} classCode={this.state.classCode} search={this.state.searchID} list="indlist" adminList={this.state.value}/>
                             </Col>
-                            <Col md={6}>
+                            <Col md={4}>
                               <h3>Group Events</h3>
                               <EventListView type="group" schoolCode={this.state.schoolCode} classCode={this.state.classCode} search={this.state.searchID} list="grplist" adminList={this.state.value}/>
                             </Col>
