@@ -466,12 +466,15 @@ else {
         </svg>
       {this.state.mode?
         <Grid fluid={true} style={{ marginTop : "-170px"}}>
-          <Toggle
-            style={{ marginTop:10}}
-            label={this.state.togg}
-            labelPosition="right"
-            onToggle={(this.ontogg.bind(this))}
-          />
+          <div style={{display : "flex" , flexDirection : "row" , justifyContent : "space-around" , alignItems : "center"}}>
+            <Toggle
+              style={{ marginTop:10}}
+              label={this.state.togg}
+              labelPosition="right"
+              onToggle={(this.ontogg.bind(this))}
+            />
+            <div style={{marginRight : "15px" , width : "100px"}}>Event Details</div>
+          </div>
           <Row className="show-grid">
             <Col md={12} style={{marginTop:40}}>
               {!this.state.view?
@@ -497,7 +500,7 @@ else {
                                 <Events type="slot2" getDetails={this.onDetailsSlot2.bind(this)}/>
                               </Col>
                               <Col md={4}>
-                                <h3>Group Events</h3>
+                                <h3>Slot 3 Events</h3>
                                 <Events type="slot3" getDetails={this.onDetailsSlot3.bind(this)}/>
                               </Col>
                             </Row>
@@ -506,7 +509,7 @@ else {
                       </Col>
                       <Col md={4} style={{marginTop:40}}>
                         <Card style={{width:'100%', heigh:'auto', textAlign:'center'}}>
-                          <CardTitle title="Particiant Details"/>
+                          <CardTitle title="Participant Details"/>
                           <PartDetails  getDetails={this.onDetails.bind(this)}/>
                         </Card>
                       </Col>
