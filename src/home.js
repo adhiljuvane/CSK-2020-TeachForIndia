@@ -58,23 +58,6 @@ class Home extends Component {
   }
 
   componentDidMount(){
-    var that  = this
-    Auth.onAuthStateChanged(function(user) {
-      if (user) {
-      if(user.uid != 'YeUxjWBjOJgVMdkQI7fWGEBwV5I2' && !that.state.admin){
-        db.ref('users').child(user.uid).once('value').then(function(data){
-          var who = data.val().branch
-          that.setState({branchCodeView:data.val().branch , school : data.val().school , class : data.val().class})
-        })
-      }
-      else{
-        that.setState({adminView:true})
-      }
-      } 
-      else {
-    // No user is signed in.
-      }
-    });
   }
 
 
@@ -386,7 +369,7 @@ else {
           <path fill="#ed6a5a" fillOpacity="1" d="M0,32L60,37.3C120,43,240,53,360,58.7C480,64,600,64,720,80C840,96,960,128,1080,128C1200,128,1320,96,1380,80L1440,64L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
         </svg>
       {this.state.mode?
-        <Grid fluid='true' style={{ marginTop : "-170px"}}>
+        <Grid fluid={true} style={{ marginTop : "-170px"}}>
           <Toggle
             style={{ marginTop:10}}
             label={this.state.togg}
@@ -403,7 +386,7 @@ else {
                       <Button type="primary" shape="circle" icon="printer" size='large' />
                     </Link>
                   </Tooltip>
-                  <Grid fluid='true'>
+                  <Grid fluid={true}>
                     <Row className="show-grid">
                       <Col md={8} style={{marginTop:40}}>
                           <Card style={{width:'auto', heigh:'auto', textAlign:'center'}}>
