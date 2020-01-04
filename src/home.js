@@ -547,12 +547,16 @@ else {
                           <CardTitle title="Event List"/>
                           <Row className="show-grid">
                             <Col md={4}>
-                              <h3>Individual Events</h3>
-                              <EventListView type="individual" schoolCode={this.state.schoolCode} classCode={this.state.classCode} search={this.state.searchID} list="indlist" adminList={this.state.value}/>
+                              <h3>Slot 1</h3>
+                              <EventListView type="eventListSlot1" schoolCode={this.state.schoolCode} classCode={this.state.classCode} search={this.state.searchID} adminList={this.state.value}/>
                             </Col>
                             <Col md={4}>
-                              <h3>Group Events</h3>
-                              <EventListView type="group" schoolCode={this.state.schoolCode} classCode={this.state.classCode} search={this.state.searchID} list="grplist" adminList={this.state.value}/>
+                              <h3>Slot 2</h3>
+                              <EventListView type="eventListSlot2" schoolCode={this.state.schoolCode} classCode={this.state.classCode} search={this.state.searchID} adminList={this.state.value}/>
+                            </Col>
+                            <Col md={4}>
+                              <h3>Slot 3</h3>
+                              <EventListView type="eventListSlot3" schoolCode={this.state.schoolCode} classCode={this.state.classCode} search={this.state.searchID} adminList={this.state.value}/>
                             </Col>
                           </Row>
                           <br/><br/>
