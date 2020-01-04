@@ -119,18 +119,26 @@ componentDidMount(){
           <div>
             <div style={{display : "flex" , flexDirection : "row" , justifyContent : "space-around" , width : "420px"}}>
               <div style={{marginBottom : "24px"}}>
-                <h4 style={{color : "#fff"}}>Individual</h4>
+                <h4 style={{color : "#fff"}}>Slot1</h4>
                   {
-                    array[i].events.individual!=null?
-                    array[i].events.individual.indlist.map((item,i) => <li key={i}>{item.name}</li>)
+                    array[i].events.eventListSlot1?
+                     <li key={i}>{array[i].events.eventListSlot1.eventListSlot1.eventName}</li>
                 :null
                 }
               </div>
               <div>
-                <h4 style={{color : "#fff"}}>Group</h4>
+                <h4 style={{color : "#fff"}}>Slot 2</h4>
               {
-                array[i].events.group!=null?
-                array[i].events.group.grplist.map((item,i) => <li key={i}>{item.name}</li>)
+                array[i].events.eventListSlot2?
+                <li key={i}>{array[i].events.eventListSlot2.eventListSlot2.eventName}</li>
+                :null
+              }
+              </div>
+              <div>
+                <h4 style={{color : "#fff"}}>Slot 3</h4>
+              {
+                array[i].events.eventListSlot3?
+                <li key={i}>{array[i].events.eventListSlot3.eventListSlot3.eventName}</li>
                 :null
               }
               </div>
