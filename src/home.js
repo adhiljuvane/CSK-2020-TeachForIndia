@@ -163,41 +163,6 @@ onDetails(data){
   console.log("dataa",data);
 }
 
-// onDetailsIndiv(inddata){
-//   this.setState({eventlistind:''})
-//   var eventlistind = []
-//   console.log("Ind",inddata);
-// for (var i = 0; i < inddata.length; i++) {
-//   db.ref('eventlist').child('Induvidual').child(inddata[i]).on('value',function(data){
-//       //console.log("data",child);
-//       var m = {
-//         key:inddata[i],
-//         id:data.val().id,
-//         name:data.val().name,
-//       }
-//       eventlistind.push(m)
-//       console.log("Vals", m);
-//   })
-//   this.setState({eventlistind})
-// }
-// }
-// onDetailsGrp(grpdata){
-//   this.setState({eventlistgrp:''})
-//   var eventlistgrp = []
-//   for (var i = 0; i < grpdata.length; i++) {
-//     db.ref('eventlist').child('Group').child(grpdata[i]).on('value',function(data){
-//         var m = {
-//           key:grpdata[i],
-//           id:data.val().id,
-//           name:data.val().name,
-//         }
-//         eventlistgrp.push(m)
-//         console.log("Vals", m);
-//     })
-//     this.setState({eventlistgrp})
-//   }
-// }
-
 onDetailsSlot1(slot1Data){
   this.setState({eventListSlot1 : ''})
   var eventListSlot1 = []
@@ -468,12 +433,12 @@ else {
         <Grid fluid={true} style={{ marginTop : "-170px"}}>
           <div style={{display : "flex" , flexDirection : "row" , justifyContent : "space-around" , alignItems : "center"}}>
             <Toggle
-              style={{ marginTop:10}}
+              style={{ marginTop:10 , width : "50%"}}
               label={this.state.togg}
               labelPosition="right"
               onToggle={(this.ontogg.bind(this))}
             />
-            <div style={{marginRight : "15px" , width : "100px"}}>Event Details</div>
+            <Link to="/eventDescription"><div style={{marginRight : "15px" , width : "100px"}}>Event Details</div></Link>
           </div>
           <Row className="show-grid">
             <Col md={12} style={{marginTop:40}}>

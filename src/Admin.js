@@ -48,11 +48,11 @@ export default class Admin extends React.Component{
             	<div className="curvedAdmin">
                 <h1>Admin Functions :</h1>
                 <div style={{display : "flex" , flexDirection : "column" , fontSize : "2rem" , alignItems : "center"}}>
-									<Link to="/events">
+									<Link to="/eventsAdmin">
 										<div className="button1 button">Events & Participants</div>
 									</Link>
-									<div className="button1 button" >Teachers List</div>
-									<div className="button1 button" >Students List</div>
+									<a href="https://docs.google.com/spreadsheets/d/11yTTH5HS0PzucnWBc81BNtWQCQZMfv908YrhrF9oVvk/edit?userstoinvite=adhiljuvane@gmail.com&ts=5e105aea&actionButton=1#gid=0"><div className="button1 button" >Teachers List</div></a>
+									<a href="https://docs.google.com/spreadsheets/d/1CuE1Oj5DpwB_D9ERgrMLnD3thJWA9rMbcvhVYdPTJV4/edit#gid=1108800724"><div className="button1 button" >Students List</div></a>
 								</div>
             	</div>
             </div>
