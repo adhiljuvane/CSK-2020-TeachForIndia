@@ -2,13 +2,14 @@ import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import { message } from "antd";
+import { Redirect } from "react-router-dom"
 
 export default class EventsAdmin extends React.Component{
 	constructor(props){
 		super(props)
 		this.state = {
 			logoouttxt : 'LOGOUT',
-			logoutbtn : true ,
+			logoutbtn : false ,
 			schoolData : [],
 			viewSchools : true,
 			viewClasses : false,
@@ -30,19 +31,6 @@ export default class EventsAdmin extends React.Component{
 		var that = this
 				that.setState({logoutbtn:true})
 				that.setState({logoouttxt:''})
-				that.setState({mode:false})
-				that.setState({uname:''})
-				that.setState({upass:''})
-				that.setState({admin:false})
-				that.setState({flag:false})
-				that.setState({regview:false})
-				that.setState({eventlistind:[]})
-				that.setState({eventlistgrp:[]})
-				that.setState({partlist:[]})
-				that.setState({searchID:''})
-				that.setState({adminView:false})
-				that.setState({view:false})
-				that.setState({togg:'View & Edit'})
 				message.info('Logged Out!');
 				localStorage.removeItem('class');
 				localStorage.removeItem('classCode');
@@ -51,9 +39,14 @@ export default class EventsAdmin extends React.Component{
 				localStorage.removeItem('mobile');
 				localStorage.removeItem('name');
 				localStorage.removeItem('schoolCode');
+				localStorage.removeItem('admin')
+				this.setState({redirect : true})
 		}
 
     render(){
+			if(this.state.redirect === true){
+				return <Redirect to="/" />
+			}
         return(
             <div>
           		<AppBar

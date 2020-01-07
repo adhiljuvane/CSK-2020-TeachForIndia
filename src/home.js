@@ -62,6 +62,9 @@ class Home extends Component {
   }
 
   componentDidMount(){
+    if(localStorage.getItem('email')){
+      this.setState({mode : true , logoutbtn : false , logoouttxt : 'LOGOUT'})
+    }
   }
 
 

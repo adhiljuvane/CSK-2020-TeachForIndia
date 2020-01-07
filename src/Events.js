@@ -16,7 +16,6 @@ export default class EventList extends React.Component {
   }
 
   componentDidMount(){
-    console.log(parseInt(localStorage.getItem('class')));
     var that = this;
     var ind = [];
     let sec = "primary"
