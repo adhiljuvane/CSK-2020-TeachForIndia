@@ -1,7 +1,10 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
-import { message } from "antd";
+import { message , Table, Divider, Tag} from "antd";
+import { db } from "./config";
+
+const { Column, ColumnGroup } = Table;
 
 export default class EventDescription extends React.Component{
 		constructor(props){
@@ -9,7 +12,81 @@ export default class EventDescription extends React.Component{
 			this.state = {
 				logoouttxt : 'LOGOUT',
 				logoutbtn : true ,
+				eventListSlot1 : [],
+				eventListSlot2 : [],
+				eventListSlot3 : [],
 			}
+		}
+
+		componentDidMount(){
+			let sec = "";
+			var that = this;
+  		let classes = parseInt(localStorage.getItem('class'));
+  		if(classes === 2 || classes === 3){
+      	sec = "primaryOne";
+  		}else if(classes === 4 || classes === 5){
+      	sec="primaryTwo";
+  		}else if(classes > 5){
+    		let schoolCode = localStorage.getItem('SchoolCode');
+    		if(schoolCode === "CHEAAI" || schoolCode === "CHEAAF" || schoolCode === "CHEABA" || schoolCode === "CHEAAX" || schoolCode === "CHEABE" || schoolCode === "CHEABD"){
+      		sec = "secondaryOne";
+    		}else{
+      		sec = "secondary" ;
+    		}
+			}
+			db.ref('events').child(sec).child('slot1').on("value", function(data){
+				let eventListSlot1 = [];
+				data.forEach( item => {
+					var m = {
+						eventCategory : item.val().eventCategory,
+						eventCode : item.val().eventCode,
+						eventDescription : item.val().eventDescription,
+						eventName : item.val().eventName,
+						indOrGroup : item.val().indOrGroup,
+						maxNoPart : item.val().maxNoPart,
+						Strict : item.val().Strict,
+					}
+					eventListSlot1.push(m);
+				})
+				that.setState({eventListSlot1 : eventListSlot1});
+			})
+
+			let eventListSlot2 = [];
+			db.ref('events').child(sec).child('slot2').on("value", function(data){
+				let eventListSlot2 = [];
+				data.forEach( item => {
+					var m = {
+						eventCategory : item.val().eventCategory,
+						eventCode : item.val().eventCode,
+						eventDescription : item.val().eventDescription,
+						eventName : item.val().eventName,
+						indOrGroup : item.val().indOrGroup,
+						maxNoPart : item.val().maxNoPart,
+						Strict : item.val().Strict,
+					}
+					eventListSlot2.push(m);
+				})
+				that.setState({eventListSlot2 : eventListSlot2});
+			})
+
+			let eventListSlot3 = [];
+			db.ref('events').child(sec).child('slot3').on("value", function(data){
+				let eventListSlot3 = [];
+				data.forEach( item => {
+					var m = {
+						eventCategory : item.val().eventCategory,
+						eventCode : item.val().eventCode,
+						eventDescription : item.val().eventDescription,
+						eventName : item.val().eventName,
+						indOrGroup : item.val().indOrGroup,
+						maxNoPart : item.val().maxNoPart,
+						Strict : item.val().Strict,
+					}
+					eventListSlot3.push(m);
+				})
+				that.setState({eventListSlot3 : eventListSlot3});
+			})
+
 		}
 
 		onLogoutclk(e){
@@ -41,7 +118,7 @@ export default class EventDescription extends React.Component{
 
     render(){
       return(
-        <div>
+        <div style={{display : "flex" , flexDirection : "column" , alignItems : "center"}}>
           <AppBar
             style={{backgroundColor : "#0099ff"}}
             title="Chennai Students Kondattam 2020"
@@ -53,6 +130,39 @@ export default class EventDescription extends React.Component{
 					</svg>
 					<div style={{marginTop : "-100px" , marginLeft : "5px" , marginRight : "5px"}}>
 						<h1>Event Details :</h1>
+						<div style={{margin : "5px"}}>
+							<h3>Slot1 -> 9:30AM - 11:00AM</h3>
+							<Table dataSource={this.state.eventListSlot1} pagination={false}>
+								<Column title="Event Code" dataIndex="eventCode" key="eventCode" />
+								<Column title="Event Name" dataIndex="eventName" key="eventName" />
+								<Column title="Event Category" dataIndex="eventCategory" key="eventCategory" />
+								<Column title="Event Description" dataIndex="eventDescription" key="eventDescription" />
+								<Column title="Ind/Group" dataIndex="indOrGroup" key="indOrGroup" />
+								<Column title="Max No: Of Participants" dataIndex="maxNoPart" key="maxNoPart" />
+							</Table>
+						</div>
+						<div style={{margin : "5px" , marginTop : "10px"}}>
+							<h3>Slot2 -> 11:15AM - 12:4PM</h3>
+							<Table dataSource={this.state.eventListSlot2} pagination={false}>
+								<Column title="Event Code" dataIndex="eventCode" key="eventCode" />
+								<Column title="Event Name" dataIndex="eventName" key="eventName" />
+								<Column title="Event Category" dataIndex="eventCategory" key="eventCategory" />
+								<Column title="Event Description" dataIndex="eventDescription" key="eventDescription" />
+								<Column title="Ind/Group" dataIndex="indOrGroup" key="indOrGroup" />
+								<Column title="Max No: Of Participants" dataIndex="maxNoPart" key="maxNoPart" />
+							</Table>
+						</div>
+						<div style={{margin : "5px" , marginTop : "10px"}}>
+							<h3>Slot3 -> 2:00PM - 3:30PM</h3>
+							<Table dataSource={this.state.eventListSlot2} pagination={false}>
+								<Column title="Event Code" dataIndex="eventCode" key="eventCode" />
+								<Column title="Event Name" dataIndex="eventName" key="eventName" />
+								<Column title="Event Category" dataIndex="eventCategory" key="eventCategory" />
+								<Column title="Event Description" dataIndex="eventDescription" key="eventDescription" />
+								<Column title="Ind/Group" dataIndex="indOrGroup" key="indOrGroup" />
+								<Column title="Max No: Of Participants" dataIndex="maxNoPart" key="maxNoPart" />
+							</Table>
+						</div>
 					</div>
         </div>
       )

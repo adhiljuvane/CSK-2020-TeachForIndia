@@ -166,11 +166,19 @@ onDetails(data){
 onDetailsSlot1(slot1Data){
   this.setState({eventListSlot1 : ''})
   var eventListSlot1 = []
-  let sec = "primary"
-  if(parseInt(localStorage.getItem('class'))>=5){
-      sec = "secondary";
-  }else{
-      sec="primary";
+  let sec = "";
+  let classes = parseInt(localStorage.getItem('class'));
+  if(classes === 2 || classes === 3){
+      sec = "primaryOne";
+  }else if(classes === 4 || classes === 5){
+      sec="primaryTwo";
+  }else if(classes > 5){
+    let schoolCode = localStorage.getItem('SchoolCode');
+    if(schoolCode === "CHEAAI" || schoolCode === "CHEAAF" || schoolCode === "CHEABA" || schoolCode === "CHEAAX" || schoolCode === "CHEABE" || schoolCode === "CHEABD"){
+      sec = "secondaryOne";
+    }else{
+      sec = "secondary" ;
+    }
   }
   for(var i = 0 ; i<slot1Data.length ; i++){
     db.ref('events').child(sec).child('slot1').child(slot1Data[i]).on('value',function(data){
@@ -193,11 +201,19 @@ onDetailsSlot1(slot1Data){
 onDetailsSlot2(slot2Data){
   this.setState({eventListSlot2 : ''})
   var eventListSlot2 = []
-  let sec = "primary"
-  if(parseInt(localStorage.getItem('class'))>=5){
-      sec = "secondary";
-  }else{
-      sec="primary";
+  let sec = "";
+  let classes = parseInt(localStorage.getItem('class'));
+  if(classes === 2 || classes === 3){
+      sec = "primaryOne";
+  }else if(classes === 4 || classes === 5){
+      sec="primaryTwo";
+  }else if(classes > 5){
+    let schoolCode = localStorage.getItem('SchoolCode');
+    if(schoolCode === "CHEAAI" || schoolCode === "CHEAAF" || schoolCode === "CHEABA" || schoolCode === "CHEAAX" || schoolCode === "CHEABE" || schoolCode === "CHEABD"){
+      sec = "secondaryOne";
+    }else{
+      sec = "secondary" ;
+    }
   }
   for(var i = 0 ; i<slot2Data.length ; i++){
     db.ref('events').child(sec).child('slot2').child(slot2Data[i]).on('value',function(data){
@@ -220,11 +236,19 @@ onDetailsSlot2(slot2Data){
 onDetailsSlot3(slot3Data){
   this.setState({eventListSlot3 : ''})
   var eventListSlot3 = []
-  let sec = "primary"
-  if(parseInt(localStorage.getItem('class'))>=5){
-      sec = "secondary";
-  }else{
-      sec="primary";
+  let sec = "";
+  let classes = parseInt(localStorage.getItem('class'));
+  if(classes === 2 || classes === 3){
+      sec = "primaryOne";
+  }else if(classes === 4 || classes === 5){
+      sec="primaryTwo";
+  }else if(classes > 5){
+    let schoolCode = localStorage.getItem('SchoolCode');
+    if(schoolCode === "CHEAAI" || schoolCode === "CHEAAF" || schoolCode === "CHEABA" || schoolCode === "CHEAAX" || schoolCode === "CHEABE" || schoolCode === "CHEABD"){
+      sec = "secondaryOne";
+    }else{
+      sec = "secondary" ;
+    }
   }
   for(var i = 0 ; i<slot3Data.length ; i++){
     db.ref('events').child(sec).child('slot3').child(slot3Data[i]).on('value',function(data){
