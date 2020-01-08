@@ -101,7 +101,7 @@ componentDidMount(){
     console.log("array", array)
       for (var i = 0; i < array.length; i++) {
         items.push(
-          <div className="IndIdCard">
+          <div className="IndIdCard" key={array[i].regno}>
             <div>
             <div style={{display : "flex" , width : "100%" , justifyContent : "center" , alignItems : "center" , fontSize : "45px"}}>Participant</div>
             <div style={{display : "flex" , width : "100%" , justifyContent : "center" , alignItems : "center" , fontSize : "25px"}}>Chennai Students Kondattam</div>
@@ -162,7 +162,7 @@ componentDidMount(){
       {this.state.showPrint?
           <div className="A3 landscape" >
           <section className="sheet padding-5mm" style={{margin:'auto'}}>
-            <Grid  fluid='true'>
+            <Grid  fluid={true}>
               <Row  className="show-grid">{items}</Row>
             </Grid>
           </section>

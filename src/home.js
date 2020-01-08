@@ -526,7 +526,7 @@ else {
                         </DropDownMenu></div>
                     :
                       <div></div>}
-                  <Grid  fluid='true'>
+                  <Grid  fluid={true}>
                     <Row className="show-grid">
                       <Col md={8} style={{marginTop:40}}>
                         <Card style={{width:'auto', heigh:'auto', textAlign:'center'}}>
