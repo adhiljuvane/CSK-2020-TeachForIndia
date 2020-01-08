@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from 'react-bootstrap/lib/Grid'
 import Row from 'react-bootstrap/lib/Row'
 import Col from 'react-bootstrap/lib/Col'
-import {List, Button, message } from 'antd'
+import { List, Button, message} from 'antd'
 import backgroundImage from "./CSK2020.png";
 import {Auth , db} from './config'
 import DropDownMenu from 'material-ui/DropDownMenu';
@@ -163,7 +163,7 @@ componentDidMount(){
           <div className="A3 landscape" >
           <section className="sheet padding-5mm" style={{margin:'auto'}}>
             <Grid  fluid={true}>
-              <Row  className="show-grid">{items}</Row>
+              {items.length !== 0 ? <Row  className="show-grid">{items}</Row> : null }
             </Grid>
           </section>
         </div>
