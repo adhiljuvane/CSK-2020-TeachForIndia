@@ -401,7 +401,7 @@ if(this.state.searchID > 0){
   }
 else {
   var that = this ;
-  db.ref(this.state.schoolCode).child(this.state.classCode).child(this.state.searchID).remove().then(function() {
+  db.ref(localStorage.getItem('schoolCode')).child(localStorage.getItem('classCode')).child(this.state.searchID).remove().then(function() {
       message.info('Participant Deleted');
       that.setState({togg:'View & Edit'})
       that.setState({view:false})
@@ -534,15 +534,15 @@ else {
                           <Row className="show-grid">
                             <Col md={4}>
                               <h3>Slot 1</h3>
-                              <EventListView type="eventListSlot1" schoolCode={this.state.schoolCode} classCode={this.state.classCode} search={this.state.searchID} adminList={this.state.value}/>
+                              <EventListView type="eventListSlot1" schoolCode={localStorage.getItem('schoolCode')} classCode={localStorage.getItem('classCode')} search={this.state.searchID} adminList={this.state.value}/>
                             </Col>
                             <Col md={4}>
                               <h3>Slot 2</h3>
-                              <EventListView type="eventListSlot2" schoolCode={this.state.schoolCode} classCode={this.state.classCode} search={this.state.searchID} adminList={this.state.value}/>
+                              <EventListView type="eventListSlot2" schoolCode={localStorage.getItem('schoolCode')} classCode={localStorage.getItem('classCode')} search={this.state.searchID} adminList={this.state.value}/>
                             </Col>
                             <Col md={4}>
                               <h3>Slot 3</h3>
-                              <EventListView type="eventListSlot3" schoolCode={this.state.schoolCode} classCode={this.state.classCode} search={this.state.searchID} adminList={this.state.value}/>
+                              <EventListView type="eventListSlot3" schoolCode={localStorage.getItem('schoolCode')} classCode={localStorage.getItem('classCode')} search={this.state.searchID} adminList={this.state.value}/>
                             </Col>
                           </Row>
                           <br/><br/>
@@ -551,7 +551,7 @@ else {
                       <Col md={4} style={{marginTop:40}}>
                         <Card style={{width:'auto', height:'auto', textAlign:'center'}}>
                           <CardTitle title="Particiant Details"/>
-                          <PartDetailsUser id={this.state.searchID} schoolCode={this.state.schoolCode} classCode={this.state.classCode} adminList={this.state.value}/>
+                          <PartDetailsUser id={this.state.searchID} schoolCode={localStorage.getItem('schoolCode')} classCode={localStorage.getItem('classCode')} adminList={this.state.value}/>
                         </Card>
                       </Col>
                     </Row>

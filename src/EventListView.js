@@ -58,7 +58,7 @@ setSearch(){
     }
     else{
       var that = this ;
-      console.log("adassas" , this.props.schoolCode , this.props.class , this.props.search , this.props.type , this.props.list)
+      console.log("adassas" , this.props.schoolCode , this.props.classCode , this.props.search , this.props.type , this.props.list)
       db.ref(this.props.schoolCode).child(this.props.classCode).child(this.props.search).child('events').child(this.props.type).child(this.props.type).once('value').then(function(data){
       ind = []
       if(data!==null){
