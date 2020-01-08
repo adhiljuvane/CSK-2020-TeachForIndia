@@ -211,7 +211,8 @@ showNotification(){
         errorText={this.state.error}
         floatingLabelText="Phone Number"
         value={this.state.pMobile}
-        onChange={this.onMobile} 
+        onChange={this.onMobile}
+        disabled={this.state.branchActive}
       />
       <div style={{width:'22%',margin:'auto'}}>
         <Upload

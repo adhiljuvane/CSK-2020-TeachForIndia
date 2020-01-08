@@ -406,7 +406,6 @@ else {
       that.setState({togg:'View & Edit'})
       that.setState({view:false})
 }).catch(function(error) {
-  console.log("error",error)
   message.config({
   top: 70,
   duration: 5,
