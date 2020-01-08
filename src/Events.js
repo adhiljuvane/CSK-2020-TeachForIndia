@@ -18,11 +18,19 @@ export default class EventList extends React.Component {
   componentDidMount(){
     var that = this;
     var ind = [];
-    let sec = "primary"
-    if(parseInt(localStorage.getItem('class'))>=5){
-        sec = "secondary";
-    }else{
-        sec="primary";
+    let sec = "";
+    let classes = parseInt(localStorage.getItem('class'));
+    if(classes === 2 || classes === 3){
+      sec = "primaryOne";
+    }else if(classes === 4 || classes === 5){
+      sec="primaryTwo";
+    }else if(classes > 5){
+      let schoolCode = localStorage.getItem('SchoolCode');
+      if(schoolCode === "CHEAAI" || schoolCode === "CHEAAF" || schoolCode === "CHEABA" || schoolCode === "CHEAAX" || schoolCode === "CHEABE" || schoolCode === "CHEABD"){
+        sec = "secondaryOne";
+      }else{
+        sec = "secondary" ;
+      }
     }
     db.ref('events').child(sec).child(this.props.type).on('value',function(data){
       ind = []
@@ -50,7 +58,10 @@ export default class EventList extends React.Component {
 
   send(){
     if (this.state.targetKeys.length > this.state.count) {
-         message.info('Only 1 events per Student Per Slot.');
+      message.info('Only 1 events per Student Per Slot.');
+    }
+    else if(this.state.targetKeys.length < this.state.count){
+      message.info('1 student must participate in one event from each slot!');
     }
     else{
       this.props.getDetails(this.state.targetKeys)

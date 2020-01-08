@@ -36,6 +36,7 @@ export default class EventDescription extends React.Component{
       		sec = "secondary" ;
     		}
 			}
+			console.log("sec",sec)
 			db.ref('events').child(sec).child('slot1').on("value", function(data){
 				let eventListSlot1 = [];
 				data.forEach( item => {
@@ -136,7 +137,7 @@ export default class EventDescription extends React.Component{
 							</Table>
 						</div>
 						<div style={{margin : "5px" , marginTop : "10px"}}>
-							<h3>Slot2 -> 11:15AM - 12:4PM</h3>
+							<h3>Slot2 -> 11:15AM - 12:45PM</h3>
 							<Table dataSource={this.state.eventListSlot2} pagination={false}>
 								<Column title="Event Code" dataIndex="eventCode" key="eventCode" />
 								<Column title="Event Name" dataIndex="eventName" key="eventName" />
@@ -148,7 +149,7 @@ export default class EventDescription extends React.Component{
 						</div>
 						<div style={{margin : "5px" , marginTop : "10px"}}>
 							<h3>Slot3 -> 2:00PM - 3:30PM</h3>
-							<Table dataSource={this.state.eventListSlot2} pagination={false}>
+							<Table dataSource={this.state.eventListSlot3} pagination={false}>
 								<Column title="Event Code" dataIndex="eventCode" key="eventCode" />
 								<Column title="Event Name" dataIndex="eventName" key="eventName" />
 								<Column title="Event Category" dataIndex="eventCategory" key="eventCategory" />

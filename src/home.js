@@ -281,50 +281,48 @@ openmodal(){
 
 onSubSave(){
   var that = this
-  if ((this.state.eventListSlot1.length < 1) && (this.state.eventListSlot2.length < 1) && (this.state.eventListSlot3.length < 1)) {
-      message.info('Enter the Event Details or Press the Send Button in the Event list');
+  if ((this.state.eventListSlot1.length !== 1) && (this.state.eventListSlot2.length !== 1) && (this.state.eventListSlot3.length !== 1)) {
+      message.info('Every StudentMust participate in one and only one event from each slots.');
   }
   else if (this.state.partlist.length < 1) {
     message.info('Enter Particiant Details');
   }
   else {
-    console.log("admin",this.state.adminView); //false if class teacher login.
 if (this.state.adminView) {
-  db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).set({
-    name:that.state.partlist.name,
-    photo:that.state.partlist.img,
-    regno:that.state.partlist.reg,
-    class : that.state.partlist.class,
-    school : that.state.partlist.school,
-  })
-  if (this.state.eventlistind.length >= 1) {
-    db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).child('events').child('individual').set({
-      indlist:that.state.eventlistind
-     })
-  }
-  else {
-    db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).child('events').child('individual').set({
-      indlist:null
-     })
-  }
-    if (this.state.eventlistgrp.length >= 1) {
-      db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).child('events').child('group').set({
-        grplist:that.state.eventlistgrp
-       })
-    }
-    else {
-      db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).child('events').child('group').set({
-        grplist:null
-       })
-    }
-     message.config({
-     top: 70,
-     duration: 5,
-   });
-             message.info('Data Insert Success');
-             that.setState({eventlistind:[]})
-             that.setState({eventlistgrp:[]})
-
+  // db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).set({
+  //   name:that.state.partlist.name,
+  //   photo:that.state.partlist.img,
+  //   regno:that.state.partlist.reg,
+  //   class : that.state.partlist.class,
+  //   school : that.state.partlist.school,
+  // })
+  // if (this.state.eventlistind.length >= 1) {
+  //   db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).child('events').child('individual').set({
+  //     indlist:that.state.eventlistind
+  //    })
+  // }
+  // else {
+  //   db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).child('events').child('individual').set({
+  //     indlist:null
+  //    })
+  // }
+  //   if (this.state.eventlistgrp.length >= 1) {
+  //     db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).child('events').child('group').set({
+  //       grplist:that.state.eventlistgrp
+  //      })
+  //   }
+  //   else {
+  //     db.ref().child(this.state.partlist.school).child(this.state.partlist.class).child(this.state.partlist.reg).child('events').child('group').set({
+  //       grplist:null
+  //      })
+  //   }
+  //    message.config({
+  //    top: 70,
+  //    duration: 5,
+  //  });
+  //            message.info('Data Insert Success');
+  //            that.setState({eventlistind:[]})
+  //            that.setState({eventlistgrp:[]})
 
 }
 else {
@@ -339,11 +337,6 @@ else {
     regno:that.state.partlist.reg,
   })
   if (this.state.eventListSlot1.length >= 1) {
-    console.log("log" , this.state.partlist.schoolCode)
-    console.log("log" , this.state.partlist.classCode)
-    console.log("log" , that.state.partlist.reg)
-    console.log("log" , that.state.eventListSlot1[0])
-
     db.ref(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('eventListSlot1').set({
       eventListSlot1:that.state.eventListSlot1[0]
      })
@@ -377,12 +370,11 @@ else {
      top: 70,
      duration: 5,
    });
-             message.info('Data Insert Success');
-             that.setState({eventlistind:[]})
-             that.setState({eventlistgrp:[]})
-           }
-         }
-
+    message.info('Data Insert Success');
+    that.setState({eventlistind:[]})
+    that.setState({eventlistgrp:[]})
+    }
+  }
 }
 
 searchID(e,str){
@@ -597,18 +589,18 @@ else {
       </Grid>
       :
       <div style={{display : "flex" , flexDirection : "column" , justifyContent : "space-between" , marginTop : "-60px"}}>
-      <Grid >
-       <Row className="show-grid">
-         <Col md={12} style={{marginTop:40,marginLeft:'auto', width:'50%'}}>
-            <Card style={{width:'auto', heigh:'auto', textAlign:'center'}}>
+      <div style={{display : "flex" , alignItems : "center" , justifyContent : "center"}}>
+       <div style={{width : "100%" , display : "flex" , alignItems : "center" , justifyContent : "center"}}>
+         <div style={{width:'50%'}}>
+            <Card style={{width:'auto', height:'auto', textAlign:'center'}}>
               <CardTitle title="LOGIN"/>
                 <TextField floatingLabelText="User Name" type="email" onChange={this.onEnterUN.bind(this)}/><br /><br />
                 <TextField floatingLabelText="Password" type="password" onChange={this.onEnterUP.bind(this)}/><br /><br />
                 <RaisedButton label="Login" primary={true} onClick={this.onLogin.bind(this)} /><br /><br />
             </Card>
-          </Col>
-        </Row>
-      </Grid>
+          </div>
+        </div>
+      </div>
       </div>
     }
 
