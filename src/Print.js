@@ -163,7 +163,7 @@ componentDidMount(){
           <div className="A3 landscape" >
           <section className="sheet padding-5mm" style={{margin:'auto'}}>
             <Grid  fluid={true}>
-              {items.length !== 0 ? <Row  className="show-grid">{items}</Row> : null }
+              {items.length !== 0 ? <Row  className="show-grid">{items}</Row> : message.warning("Add Students to generate Participant Cards.") }
             </Grid>
           </section>
         </div>

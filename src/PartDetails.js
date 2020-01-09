@@ -149,7 +149,7 @@ onSave(){
   else {
   db.ref(this.state.schoolCode).child(this.state.classCode).child(this.state.pReg).on('value' , function(data){
   if (data.val()!==null) {
-    that.showNotification();
+    // that.showNotification();
     that.setState({size:true})
   }
   else{
