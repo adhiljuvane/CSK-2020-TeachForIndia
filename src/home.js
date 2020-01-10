@@ -326,6 +326,20 @@ if (this.state.adminView) {
 
 }
 else {
+  let sec = "";
+  let classes = parseInt(localStorage.getItem('class'));
+  if(classes === 2 || classes === 3){
+      sec = "primaryOne";
+  }else if(classes === 4 || classes === 5){
+      sec="primaryTwo";
+  }else if(classes > 5){
+    let schoolCode = localStorage.getItem('SchoolCode');
+    if(schoolCode === "CHEAAI" || schoolCode === "CHEAAF" || schoolCode === "CHEABA" || schoolCode === "CHEAAX" || schoolCode === "CHEABE" || schoolCode === "CHEABD"){
+      sec = "secondaryOne";
+    }else{
+      sec = "secondary" ;
+    }
+  }
   db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).set({
     name:that.state.partlist.name,
     class:that.state.partlist.class,
@@ -340,6 +354,13 @@ else {
     db.ref(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('eventListSlot1').set({
       eventListSlot1:that.state.eventListSlot1[0]
      })
+    db.ref('eventStudentsList').child(sec).child('eventListSlot1').child(that.state.eventListSlot1[0].eventCode).push({
+      name : that.state.partlist.name,
+      class : that.state.partlist.class,
+      classCode : that.state.partlist.classCode,
+      schoolCode : that.state.partlist.schoolCode,
+      regno : that.state.partlist.reg
+    })
   }
   else {
     db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('eventListSlot1').set({
@@ -350,6 +371,13 @@ else {
     db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('eventListSlot2').set({
       eventListSlot2:that.state.eventListSlot2[0]
      })
+     db.ref('eventStudentsList').child(sec).child('eventListSlot2').child(that.state.eventListSlot2[0].eventCode).push({
+      name : that.state.partlist.name,
+      class : that.state.partlist.class,
+      classCode : that.state.partlist.classCode,
+      schoolCode : that.state.partlist.schoolCode,
+      regno : that.state.partlist.reg
+    })
   }
   else {
     db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('eventListSlot2').set({
@@ -360,6 +388,13 @@ else {
     db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('eventListSlot3').set({
       eventListSlot3:that.state.eventListSlot3[0]
      })
+     db.ref('eventStudentsList').child(sec).child('eventListSlot3').child(that.state.eventListSlot3[0].eventCode).push({
+      name : that.state.partlist.name,
+      class : that.state.partlist.class,
+      classCode : that.state.partlist.classCode,
+      schoolCode : that.state.partlist.schoolCode,
+      regno : that.state.partlist.reg
+    })
   }
   else {
     db.ref().child(this.state.partlist.schoolCode).child(this.state.partlist.classCode).child(this.state.partlist.reg).child('events').child('eventListSlot3').set({

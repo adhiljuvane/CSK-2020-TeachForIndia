@@ -44,14 +44,18 @@ export default class Admin extends React.Component{
                 showMenuIconButton={false}
                 iconElementRight={<FlatButton label={this.state.logoouttxt} disabled={this.state.logoutbtn} onClick={(this.onLogoutclk.bind(this))}/>}
               />
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#49475b" fill-opacity="1" d="M0,64L48,58.7C96,53,192,43,288,74.7C384,107,480,181,576,218.7C672,256,768,256,864,213.3C960,171,1056,85,1152,64C1248,43,1344,85,1392,106.7L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+								<path fill="#49475b" fill-opacity="1" d="M0,64L48,58.7C96,53,192,43,288,74.7C384,107,480,181,576,218.7C672,256,768,256,864,213.3C960,171,1056,85,1152,64C1248,43,1344,85,1392,106.7L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+							</svg>
             	<div className="curvedAdmin">
                 <h1>Admin Functions :</h1>
                 <div style={{display : "flex" , flexDirection : "column" , fontSize : "2rem" , alignItems : "center"}}>
 									<Link to="/eventsAdmin">
-										<div className="button1 button">View Schools , Classes & Students</div>
+										<div className="button1 button">Student Details</div>
 									</Link>
-									<a href="https://docs.google.com/spreadsheets/d/11yTTH5HS0PzucnWBc81BNtWQCQZMfv908YrhrF9oVvk/edit?userstoinvite=adhiljuvane@gmail.com&ts=5e105aea&actionButton=1#gid=0"><div className="button1 button" >Teachers List</div></a>
+									<Link to="/eventParticipation">
+									<div className="button1 button" >Events & Partipants</div>
+									</Link>
 									<a href="https://docs.google.com/spreadsheets/d/1CuE1Oj5DpwB_D9ERgrMLnD3thJWA9rMbcvhVYdPTJV4/edit#gid=1108800724"><div className="button1 button" >Students List</div></a>
 								</div>
             	</div>

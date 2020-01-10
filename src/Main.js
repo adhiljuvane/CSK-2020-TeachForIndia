@@ -5,6 +5,7 @@ import Admin from './Admin'
 import Print from './Print'
 import EventDescription from './EventDescription';
 import Events from './Events'
+import EventParticipation from "./EventParticipation";
 import EventsAdmin from "./EventsAdmin";
 
 
@@ -15,6 +16,7 @@ const Main = () => (
       <Route path='/admin' component={Admin}/>
       <Route path="/events" component={Events}/>
       <Route path="/eventsAdmin" component={EventsAdmin} />
+      <Route path="/eventParticipation" component={EventParticipation} />
       <Route path="/eventDescription" component={EventDescription} />
       <Route path='/print' component={Print}/>
     </Switch>
