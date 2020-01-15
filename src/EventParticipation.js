@@ -25,7 +25,9 @@ export default class EventParticipation extends React.Component{
 			secondaryOneSlot3 : [],
 			secondarySlot1 : [],
 			secondarySlot2 : [],
-			secondarySlot3 : []
+			secondarySlot3 : [],
+			studentsList : [],
+			eventParticipation : false
     }
 	}
 
@@ -47,7 +49,7 @@ export default class EventParticipation extends React.Component{
 				}
 				primaryOneSlot1.push(m);
 			})
-			primaryOneSlot1!== null ? that.setState({primaryOneSlot1}) : null ;
+			that.setState({primaryOneSlot1})
 		})
 
 		db.ref('events').child('primaryOne').child('slot2').on("value", function(data){
@@ -65,7 +67,7 @@ export default class EventParticipation extends React.Component{
 				}
 				primaryOneSlot2.push(m);
 			})
-			primaryOneSlot2!== null ? that.setState({primaryOneSlot2}) : null ;
+			that.setState({primaryOneSlot2})
 		})
 
 		db.ref('events').child('primaryOne').child('slot3').on("value", function(data){
@@ -83,7 +85,7 @@ export default class EventParticipation extends React.Component{
 				}
 				primaryOneSlot3.push(m);
 			})
-			primaryOneSlot3!== null ? that.setState({primaryOneSlot3}) : null ;
+			that.setState({primaryOneSlot3})
 		})
 
 		db.ref('events').child('primaryTwo').child('slot1').on("value", function(data){
@@ -101,7 +103,7 @@ export default class EventParticipation extends React.Component{
 				}
 				primaryTwoSlot1.push(m);
 			})
-			primaryTwoSlot1!== null ? that.setState({primaryTwoSlot1}) : null ;
+			that.setState({primaryTwoSlot1})
 		})
 
 		db.ref('events').child('primaryTwo').child('slot2').on("value", function(data){
@@ -119,7 +121,7 @@ export default class EventParticipation extends React.Component{
 				}
 				primaryTwoSlot2.push(m);
 			})
-			primaryTwoSlot2!== null ? that.setState({primaryTwoSlot2}) : null ;
+			that.setState({primaryTwoSlot2})
 		})
 
 		db.ref('events').child('primaryTwo').child('slot3').on("value", function(data){
@@ -137,7 +139,7 @@ export default class EventParticipation extends React.Component{
 				}
 				primaryTwoSlot3.push(m);
 			})
-			primaryTwoSlot3!== null ? that.setState({primaryTwoSlot3}) : null ;
+			that.setState({primaryTwoSlot3})
 		})
 
 		db.ref('events').child('secondaryOne').child('slot1').on("value", function(data){
@@ -155,7 +157,7 @@ export default class EventParticipation extends React.Component{
 				}
 				secondaryOneSlot1.push(m);
 			})
-			secondaryOneSlot1!== null ? that.setState({secondaryOneSlot1}) : null ;
+			that.setState({secondaryOneSlot1})
 		})
 
 		db.ref('events').child('secondaryOne').child('slot2').on("value", function(data){
@@ -173,7 +175,7 @@ export default class EventParticipation extends React.Component{
 				}
 				secondaryOneSlot2.push(m);
 			})
-			secondaryOneSlot2!== null ? that.setState({secondaryOneSlot2}) : null ;
+			that.setState({secondaryOneSlot2})
 		})
 
 		db.ref('events').child('secondaryOne').child('slot3').on("value", function(data){
@@ -191,7 +193,7 @@ export default class EventParticipation extends React.Component{
 				}
 				secondaryOneSlot3.push(m);
 			})
-			secondaryOneSlot3!== null ? that.setState({secondaryOneSlot3}) : null ;
+			that.setState({secondaryOneSlot3})
 		})
 
 		db.ref('events').child('secondary').child('slot1').on("value", function(data){
@@ -209,7 +211,7 @@ export default class EventParticipation extends React.Component{
 				}
 				secondarySlot1.push(m);
 			})
-			secondarySlot1!== null ? that.setState({secondarySlot1}) : null ;
+			that.setState({secondarySlot1})
 		})
 
 		db.ref('events').child('secondary').child('slot2').on("value", function(data){
@@ -227,7 +229,7 @@ export default class EventParticipation extends React.Component{
 				}
 				secondarySlot2.push(m);
 			})
-			secondarySlot2!== null ? that.setState({secondarySlot2}) : null ;
+			that.setState({secondarySlot2})
 		})
 
 		db.ref('events').child('secondary').child('slot3').on("value", function(data){
@@ -245,7 +247,7 @@ export default class EventParticipation extends React.Component{
 				}
 				secondarySlot3.push(m);
 			})
-			secondarySlot3!== null ? that.setState({secondarySlot3}) : null ;
+			that.setState({secondarySlot3})
 		})
 	}
 
@@ -271,6 +273,25 @@ export default class EventParticipation extends React.Component{
 		this.setState({redirect : true})
 	}
 
+	onEventClick = (eventCode , slot , sec) => {
+		var that = this ;
+		let studentsList = [];
+		db.ref('eventStudentsList').child(sec).child(slot).child(eventCode).on("value" , function(data){
+			data.forEach(item => {
+				let student = {
+					class : item.val().class,
+					classCode : item.val().classCode,
+					name : item.val().name,
+					regno : item.val().regno,
+					schoolCode: item.val().schoolCode,
+				}
+				studentsList.push(student);
+			})
+			that.setState({studentsList , eventParticipation : true})
+			console.log("studentsList",studentsList)
+		})
+	}
+
   render(){
     if(this.state.redirect === true){
       return <Redirect to="/" />
@@ -286,67 +307,123 @@ export default class EventParticipation extends React.Component{
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
           	<path fill="#fc7a57" fill-opacity="1" d="M0,32L120,37.3C240,43,480,53,720,64C960,75,1200,85,1320,90.7L1440,96L1440,0L1320,0C1200,0,960,0,720,0C480,0,240,0,120,0L0,0Z"></path>
         	</svg>
-				<div style={{ margin : "10px" , marginTop : "-180px"}}>
+				{this.state.eventParticipation? 
+					<div style={{ margin : "10px" , marginTop : "-180px"}}>
+						<h2>Participants :</h2>
+						<div style={{width : "50%" , display : "flex" , flexDirection : "row" , justifyContent : "space-between"}}>
+								<div style={{width : "20%" ,display : "flex" , justifyContent : "center" , alignItems : "center"}}>Name</div>
+								<div style={{width : "20%" ,display : "flex" , justifyContent : "center" , alignItems : "center"}}>Class</div>
+								<div style={{width : "20%" ,display : "flex" , justifyContent : "center" , alignItems : "center"}}>Class Code</div>
+								<div style={{width : "20%" ,display : "flex" , justifyContent : "center" , alignItems : "center"}}>Reg No:</div>
+								<div style={{width : "20%" ,display : "flex" , justifyContent : "center" , alignItems : "center"}}>School Code</div>
+							</div>
+						{this.state.studentsList.map(item => {
+							return <div style={{width : "50%" , display : "flex" , flexDirection : "row" , justifyContent : "space-between"}}>
+								<div style={{width : "20%" ,display : "flex" , justifyContent : "center" , alignItems : "center"}}>{item.name}</div>
+								<div style={{width : "20%" ,display : "flex" , justifyContent : "center" , alignItems : "center"}}>{item.class}</div>
+								<div style={{width : "20%" ,display : "flex" , justifyContent : "center" , alignItems : "center"}}>{item.classCode}</div>
+								<div style={{width : "20%" ,display : "flex" , justifyContent : "center" , alignItems : "center"}}>{item.regno}</div>
+								<div style={{width : "20%" ,display : "flex" , justifyContent : "center" , alignItems : "center"}}>{item.schoolCode}</div>
+							</div>
+						})}
+					</div>
+				: <div style={{ margin : "10px" , marginTop : "-180px"}}>
 					<h1>Events</h1>
 					<Tabs defaultActiveKey="1" onChange={this.callback}>
     				<TabPane tab="Primary One" key="1">
       				<h4>Slot 1</h4>
 								{this.state.primaryOneSlot1.map(item=>{
-									<div>item.name</div>
+									return 	<div onClick={() => this.onEventClick(item.eventCode , "eventListSlot1" , "primaryOne")} style={{ width : "300px" , margin : "10px" , display : "flex" , flexDirection : "row" , justifyContent : "space-between"}}>
+														<div>{item.eventName}</div>
+														<div>{item.eventCode}</div>
+													</div>
 								})}
 							<h4>Slot 2</h4>
 							{this.state.primaryOneSlot2.map(item=>{
-									<div>item.name</div>
+									return 	<div onClick={() => this.onEventClick(item.eventCode , "eventListSlot2" , "primaryOne")} style={{ width : "300px" , margin : "10px" , display : "flex" , flexDirection : "row" , justifyContent : "space-between"}}>
+														<div>{item.eventName}</div>
+														<div>{item.eventCode}</div>
+													</div>
 								})}
 							<h4>Slot 3</h4>
 							{this.state.primaryOneSlot3.map(item=>{
-									<div>item.name</div>
+									return 	<div onClick={() => this.onEventClick(item.eventCode , "eventListSlot3" , "primaryOne")} style={{ width : "300px" , margin : "10px" , display : "flex" , flexDirection : "row" , justifyContent : "space-between"}}>
+														<div>{item.eventName}</div>
+														<div>{item.eventCode}</div>
+													</div>
 								})}
     				</TabPane>
     				<TabPane tab="Primary Two" key="2">
 							<h4>Slot 1</h4>
 							{this.state.primaryTwoSlot1.map(item=>{
-									<div>item.name</div>
+									return 	<div onClick={() => this.onEventClick(item.eventCode , "eventListSlot1" , "primaryTwo")} style={{ width : "300px" , margin : "10px" , display : "flex" , flexDirection : "row" , justifyContent : "space-between"}}>
+														<div>{item.eventName}</div>
+														<div>{item.eventCode}</div>
+													</div>
 								})}
 							<h4>Slot 2</h4>
 							{this.state.primaryTwoSlot2.map(item=>{
-									<div>item.name</div>
+									return 	<div onClick={() => this.onEventClick(item.eventCode , "eventListSlot2" , "primaryTwo")} style={{ width : "300px" , margin : "10px" , display : "flex" , flexDirection : "row" , justifyContent : "space-between"}}>
+														<div>{item.eventName}</div>
+														<div>{item.eventCode}</div>
+													</div>
 								})}
 							<h4>Slot 3</h4>
 							{this.state.primaryTwoSlot3.map(item=>{
-									<div>item.name</div>
+									return 	<div onClick={() => this.onEventClick(item.eventCode , "eventListSlot3" , "primaryTwo")} style={{ width : "300px" , margin : "10px" , display : "flex" , flexDirection : "row" , justifyContent : "space-between"}}>
+														<div>{item.eventName}</div>
+														<div>{item.eventCode}</div>
+													</div>
 								})}
     				</TabPane>
     				<TabPane tab="Secondary One" key="3">
 							<h4>Slot 1</h4>
 							{this.state.secondaryOneSlot1.map(item=>{
-									<div>item.name</div>
+									return 	<div onClick={() => this.onEventClick(item.eventCode , "eventListSlot1" , "secondaryOne")} style={{ width : "300px" , margin : "10px" , display : "flex" , flexDirection : "row" , justifyContent : "space-between"}}>
+														<div>{item.eventName}</div>
+														<div>{item.eventCode}</div>
+													</div>
 								})}
 							<h4>Slot 2</h4>
 							{this.state.secondaryOneSlot2.map(item=>{
-									<div>item.name</div>
+									return 	<div onClick={() => this.onEventClick(item.eventCode , "eventListSlot2" , "secondaryOne")} style={{ width : "300px" , margin : "10px" , display : "flex" , flexDirection : "row" , justifyContent : "space-between"}}>
+														<div>{item.eventName}</div>
+														<div>{item.eventCode}</div>
+													</div>
 								})}
 							<h4>Slot 3</h4>
 							{this.state.secondaryOneSlot3.map(item=>{
-									<div>item.name</div>
+									return 	<div onClick={() => this.onEventClick(item.eventCode , "eventListSlot3" , "secondaryOne")} style={{ width : "300px" , margin : "10px" , display : "flex" , flexDirection : "row" , justifyContent : "space-between"}}>
+														<div>{item.eventName}</div>
+														<div>{item.eventCode}</div>
+													</div>
 								})}
     				</TabPane>
 						<TabPane tab="Secondary Two" key="4">
 							<h4>Slot 1</h4>
 							{this.state.secondarySlot1.map(item=>{
-									<div>item.name</div>
+									return 	<div onClick={() => this.onEventClick(item.eventCode , "eventListSlot1" , "secondary")} style={{ width : "300px" , margin : "10px" , display : "flex" , flexDirection : "row" , justifyContent : "space-between"}}>
+														<div>{item.eventName}</div>
+														<div>{item.eventCode}</div>
+													</div>
 								})}
 							<h4>Slot 2</h4>
 							{this.state.secondarySlot2.map(item=>{
-									<div>item.name</div>
+									return 	<div onClick={() => this.onEventClick(item.eventCode , "eventListSlot2" , "secondary")} style={{ width : "300px" , margin : "10px" , display : "flex" , flexDirection : "row" , justifyContent : "space-between"}}>
+														<div>{item.eventName}</div>
+														<div>{item.eventCode}</div>
+													</div>
 								})}
 							<h4>Slot 3</h4>
 							{this.state.secondaryOneSlot3.map(item=>{
-									<div>item.name</div>
+									return 	<div onClick={() => this.onEventClick(item.eventCode , "eventListSlot3" , "secondary")} style={{ width : "300px" , margin : "10px" , display : "flex" , flexDirection : "row" , justifyContent : "space-between"}}>
+														<div>{item.eventName}</div>
+														<div>{item.eventCode}</div>
+													</div>
 								})}
     				</TabPane>
   				</Tabs>
-				</div>
+				</div>}
       </div>
     )
   }
