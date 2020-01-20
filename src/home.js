@@ -176,13 +176,14 @@ onDetailsSlot1(slot1Data){
   }else if(classes === 4 || classes === 5){
       sec="primaryTwo";
   }else if(classes > 5){
-    let schoolCode = localStorage.getItem('SchoolCode');
+    let schoolCode = localStorage.getItem('schoolCode');
     if(schoolCode === "CHEAAI" || schoolCode === "CHEAAF" || schoolCode === "CHEABA" || schoolCode === "CHEAAX" || schoolCode === "CHEABE" || schoolCode === "CHEABD"){
       sec = "secondaryOne";
     }else{
       sec = "secondary" ;
     }
   }
+  console.log("secss",sec)
   for(var i = 0 ; i<slot1Data.length ; i++){
     db.ref('events').child(sec).child('slot1').child(slot1Data[i]).on('value',function(data){
       var m = {
@@ -211,7 +212,7 @@ onDetailsSlot2(slot2Data){
   }else if(classes === 4 || classes === 5){
       sec="primaryTwo";
   }else if(classes > 5){
-    let schoolCode = localStorage.getItem('SchoolCode');
+    let schoolCode = localStorage.getItem('schoolCode');
     if(schoolCode === "CHEAAI" || schoolCode === "CHEAAF" || schoolCode === "CHEABA" || schoolCode === "CHEAAX" || schoolCode === "CHEABE" || schoolCode === "CHEABD"){
       sec = "secondaryOne";
     }else{
@@ -246,7 +247,7 @@ onDetailsSlot3(slot3Data){
   }else if(classes === 4 || classes === 5){
       sec="primaryTwo";
   }else if(classes > 5){
-    let schoolCode = localStorage.getItem('SchoolCode');
+    let schoolCode = localStorage.getItem('schoolCode');
     if(schoolCode === "CHEAAI" || schoolCode === "CHEAAF" || schoolCode === "CHEABA" || schoolCode === "CHEAAX" || schoolCode === "CHEABE" || schoolCode === "CHEABD"){
       sec = "secondaryOne";
     }else{

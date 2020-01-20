@@ -29,7 +29,7 @@ export default class EventDescription extends React.Component{
   		}else if(classes === 4 || classes === 5){
       	sec="primaryTwo";
   		}else if(classes > 5){
-    		let schoolCode = localStorage.getItem('SchoolCode');
+    		let schoolCode = localStorage.getItem('schoolCode');
     		if(schoolCode === "CHEAAI" || schoolCode === "CHEAAF" || schoolCode === "CHEABA" || schoolCode === "CHEAAX" || schoolCode === "CHEABE" || schoolCode === "CHEABD"){
       		sec = "secondaryOne";
     		}else{
