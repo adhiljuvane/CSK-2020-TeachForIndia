@@ -274,9 +274,11 @@ export default class EventParticipation extends React.Component{
 	}
 
 	onEventClick = (eventCode , slot , sec) => {
+		console.log("eventCode" , eventCode , "sec" , sec , "slot" , slot )
 		var that = this ;
 		let studentsList = [];
-		db.ref('eventStudentsList').child(sec).child(slot).child(eventCode).on("value" , function(data){
+		db.ref('eventStudentLists').child(sec).child(slot).child(eventCode).on("value" , function(data){
+			console.log("dat",data.val())
 			data.forEach(item => {
 				let student = {
 					class : item.val().class,
