@@ -3,6 +3,7 @@ import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import { Tabs , message } from "antd";
 import { Auth , db } from "./config";
+import { CSVLink, CSVDownload } from "react-csv";
 import { Redirect , Link } from "react-router-dom";
 
 const { TabPane } = Tabs;
@@ -295,6 +296,14 @@ export default class EventParticipation extends React.Component{
 	}
 
   render(){
+		var headers = [
+      { label: "Name", key: "name" },
+      { label: "Class", key: "class" },
+      { label: "Class Code", key: "classCode" },
+			{ label: "Reg No", key: "regno" },
+			{ label: "School Code" , key : "schoolCode"}
+		];
+		
     if(this.state.redirect === true){
       return <Redirect to="/" />
     }
@@ -311,7 +320,10 @@ export default class EventParticipation extends React.Component{
         	</svg>
 				{this.state.eventParticipation? 
 					<div style={{ margin : "10px" , marginTop : "-180px"}}>
-						<h2>Participants :</h2>
+						<div>
+							<h2>Participants :</h2>
+							<CSVLink data={this.state.studentsList} headers={headers}>Download me</CSVLink>
+						</div>
 						<div style={{width : "50%" , display : "flex" , flexDirection : "row" , justifyContent : "space-between"}}>
 								<div style={{width : "20%" ,display : "flex" , justifyContent : "center" , alignItems : "center"}}>Name</div>
 								<div style={{width : "20%" ,display : "flex" , justifyContent : "center" , alignItems : "center"}}>Class</div>
