@@ -56,7 +56,9 @@ export default class Admin extends React.Component{
 									<Link to="/eventParticipation">
 									<div className="button1 button" >Events & Partipants</div>
 									</Link>
-									<a href="https://docs.google.com/spreadsheets/d/1CuE1Oj5DpwB_D9ERgrMLnD3thJWA9rMbcvhVYdPTJV4/edit#gid=1108800724"><div className="button1 button" >Students List</div></a>
+									<Link to="/printAdmin">
+										<div className="button1 button" >Students List</div>
+									</Link>
 								</div>
             	</div>
             </div>

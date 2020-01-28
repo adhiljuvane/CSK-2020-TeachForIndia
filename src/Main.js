@@ -2,6 +2,7 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Home from './home'
 import Admin from './Admin'
+import PrintAdmin from './PrintAdmin'
 import Print from './Print'
 import EventDescription from './EventDescription';
 import Events from './Events'
@@ -14,6 +15,7 @@ const Main = () => (
     <Switch>
       <Route exact path='/' component={Home}/>
       <Route path='/admin' component={Admin}/>
+      <Route path="/printAdmin" component={PrintAdmin} />
       <Route path="/events" component={Events}/>
       <Route path="/eventsAdmin" component={EventsAdmin} />
       <Route path="/eventParticipation" component={EventParticipation} />

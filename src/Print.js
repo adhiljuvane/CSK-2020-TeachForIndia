@@ -13,9 +13,7 @@ import "./Print.css"
 export default class Print extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-
       data:[],
       classCode:'',
       schoolCode : '',
