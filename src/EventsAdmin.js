@@ -1,5 +1,6 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
+import { CSVLink, CSVDownload } from "react-csv";
 import FlatButton from 'material-ui/FlatButton';
 import { Tree , message , Icon , Table, Divider, Tag} from "antd";
 import { Redirect } from "react-router-dom"
@@ -82,6 +83,14 @@ export default class EventsAdmin extends React.Component{
 		};
 
     render(){
+
+			var headers = [
+				{ label: "ID", key: "studentId" },
+				{ label: "Name", key: "studentName" },
+				{ label: "Gender", key: "gender" },
+				{ label: "Class Code" , key : "classCode"}
+			];
+
 			if(this.state.redirect === true){
 				return <Redirect to="/" />
 			}
@@ -264,6 +273,7 @@ export default class EventsAdmin extends React.Component{
 									{this.state.viewClasses ? 
 										<div>
 											<h1>Classes</h1>
+											<CSVLink data={this.state.studentDetails} headers={headers}>Download me</CSVLink>
 											<Table dataSource={this.state.studentDetails} pagination={false}>
 												<Column title="ID" dataIndex="studentId" key="studentId" />
 												<Column title="Name" dataIndex="studentName" key="studentName" />

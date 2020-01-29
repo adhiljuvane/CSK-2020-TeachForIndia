@@ -4,6 +4,7 @@ import Grid from 'react-bootstrap/lib/Grid'
 import Row from 'react-bootstrap/lib/Row'
 import Col from 'react-bootstrap/lib/Col'
 import { message } from "antd";
+import lozad from 'lozad'
 
 export default class PrintAdmin extends React.Component{
   constructor(props){
@@ -91,6 +92,7 @@ export default class PrintAdmin extends React.Component{
     const items =[];
     const array = this.state.data
     console.log("array", array)
+    const observer = lozad(); // lazy loads elements with default selector as '.lozad'
     for (var i = 0; i < array.length; i++) {
       items.push(
         <div className="IndIdCard" key={array[i].regno}>
@@ -99,7 +101,7 @@ export default class PrintAdmin extends React.Component{
             <div style={{display : "flex" , width : "100%" , justifyContent : "center" , alignItems : "center" , fontSize : "25px"}}>Chennai Students Kondattam</div>
               <div style={{display : "flex" , flexDirection : "column" , justifyContent : "space-around" , marginBottom : "17px" , justifyContent : "center" , alignItems : "center"}}>
                 <div style={{display : "flex" , alignItems :"center" ,  borderRadius : "150px"}}>
-                  <img src={array[i].photo}  width="150px" height="150px" style={{ borderRadius : "150px"}}/>
+                  <img src={array[i].photo} className="lozad" width="150px" height="150px" style={{ borderRadius : "150px"}}/>
                 </div>
                 <div style={{marginTop:10 , color : "#fff"}}>
                   <h5 style={{color : "#fff"}}>Name: {array[i].name}</h5>
@@ -117,32 +119,35 @@ export default class PrintAdmin extends React.Component{
               <div style={{display : "flex" , flexDirection : "row" , justifyContent : "space-around" , width : "420px"}}>
                 <div style={{marginBottom : "24px"}}>
                   <h4 style={{color : "#fff"}}>Slot1</h4>
-                    {
+                    {array[i].events ?
                       array[i].events.eventListSlot1?
                        <li key={i} style={{listStyleType : "none"}}>{array[i].events.eventListSlot1.eventListSlot1.eventName}</li>
-                  :null
+                  :null : null
                   }
                 </div>
                 <div>
                   <h4 style={{color : "#fff"}}>Slot 2</h4>
                 {
+                  array[i].evnets ?
                   array[i].events.eventListSlot2?
                   <li key={i} style={{listStyleType : "none"}}>{array[i].events.eventListSlot2.eventListSlot2.eventName}</li>
-                  :null
+                  :null : null
                 }
                 </div>
                 <div>
                   <h4 style={{color : "#fff"}}>Slot 3</h4>
                 {
+                  array[i].events ?
                   array[i].events.eventListSlot3?
                   <li key={i} style={{listStyleType : "none"}}>{array[i].events.eventListSlot3.eventListSlot3.eventName}</li>
-                  :null
+                  :null : null
                 }
                 </div>
               </div>
             </div>
           </div>
         )
+        observer.observe();
       }
     return(
         <div className="A3 landscape" >
