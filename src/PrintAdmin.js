@@ -11,7 +11,8 @@ export default class PrintAdmin extends React.Component{
     this.state = {
       data : [],
       schoolList : [ "CHEABM" , "CHEABG" , "CHEAAT" , "CHEAAN" , "CHEAAJ" , "CHEAAI" , "CHEAAF" , "CHEAAQ" , "CHEAAV" , "CHEAAY" , "CHEAAR" , "CHEAAM" , "CHEABA" , "CHEAAZ" , "CHEAAX" , "CHEABE" , "CHEABD" , "CHEAAU" , "CHEABI" , "CHEABJ" , "CHEAAL" , "CHEABK" , "CHEABL" , "CHEABF" , "CHEABH" , "CHEABN" , "CHEAAC"],
-      class : [{ schoolCode : "CHEABM" , school : " Ambal.Mat. Hr. Sec. School" } , { schoolCode : "CHEABG" , school : "Anjuman Matriculation School"} , { schoolCode : "CHEAAT" , school : "CHS Kannamapet"} , { schoolCode : "CHEAAN" , school : "CHS Kottur"} , { schoolCode : "CHEAAJ" , school : "CHS McNichols"} , { schoolCode : "CHEAAI" , school : "CHS New Market Farm"} , { schoolCode : "CHEAAF" , school : "CHS TV Samy street"} , { schoolCode : "CHEAAQ" , school : "CHSS Koyambedu"} , { schoolCode : "CHEAAV" , school : "CHSS Puliyur"} , { schoolCode : "CHEAAY" , school : "CHSS TH Road"} , { schoolCode : "CHEAAR" , school : "CHSS Tharamani"} , { schoolCode : "CHEAAM" , school : "CHSS Thiruvanmiyur"} , { schoolCode : "CHEABA" , school : "CHSS Velachery"} , { schoolCode : "CHEAAZ" , school : "CMS Arumbakkam"} , { schoolCode : "CHEAAX" , school : "CMS MGR Nagar II"} , { schoolCode : "CHEABE" , school : "CMS MMDA I"} , { schoolCode : "CHEABD" , school : "CMS Pudumaniyakuppam"} , { schoolCode : "CHEAAU" , school : "CPS Goyyathope"} , { schoolCode : "CHEABI" , school : "CPS Kottur"} , { schoolCode : "CHEABJ" , school : "CPS McNichols"} , { schoolCode : "CHEAAL" , school : "CPS Rangarajapuram"} , { schoolCode : "CHEABK" , school : "CPS TH Road"} , { schoolCode : "CHEABL" , school : "CPS Tiruvanmiyur"} , { schoolCode : "CHEABF" , school : "CUMS Perambur Barracks Rd"}, { schoolCode : "CHEABH" , school : "RBANC School"} , { schoolCode : "CHEABN" , school : "Sri SBVR Memorial.Mat. School"} , { schoolCode : "CHEAAC" , school : "Vidyaniketan Matr. School"}]
+      class : [{ schoolCode : "CHEABM" , school : " Ambal.Mat. Hr. Sec. School" } , { schoolCode : "CHEABG" , school : "Anjuman Matriculation School"} , { schoolCode : "CHEAAT" , school : "CHS Kannamapet"} , { schoolCode : "CHEAAN" , school : "CHS Kottur"} , { schoolCode : "CHEAAJ" , school : "CHS McNichols"} , { schoolCode : "CHEAAI" , school : "CHS New Market Farm"} , { schoolCode : "CHEAAF" , school : "CHS TV Samy street"} , { schoolCode : "CHEAAQ" , school : "CHSS Koyambedu"} , { schoolCode : "CHEAAV" , school : "CHSS Puliyur"} , { schoolCode : "CHEAAY" , school : "CHSS TH Road"} , { schoolCode : "CHEAAR" , school : "CHSS Tharamani"} , { schoolCode : "CHEAAM" , school : "CHSS Thiruvanmiyur"} , { schoolCode : "CHEABA" , school : "CHSS Velachery"} , { schoolCode : "CHEAAZ" , school : "CMS Arumbakkam"} , { schoolCode : "CHEAAX" , school : "CMS MGR Nagar II"} , { schoolCode : "CHEABE" , school : "CMS MMDA I"} , { schoolCode : "CHEABD" , school : "CMS Pudumaniyakuppam"} , { schoolCode : "CHEAAU" , school : "CPS Goyyathope"} , { schoolCode : "CHEABI" , school : "CPS Kottur"} , { schoolCode : "CHEABJ" , school : "CPS McNichols"} , { schoolCode : "CHEAAL" , school : "CPS Rangarajapuram"} , { schoolCode : "CHEABK" , school : "CPS TH Road"} , { schoolCode : "CHEABL" , school : "CPS Tiruvanmiyur"} , { schoolCode : "CHEABF" , school : "CUMS Perambur Barracks Rd"}, { schoolCode : "CHEABH" , school : "RBANC School"} , { schoolCode : "CHEABN" , school : "Sri SBVR Memorial.Mat. School"} , { schoolCode : "CHEAAC" , school : "Vidyaniketan Matr. School"}],
+      users : []
     }
   }
 
@@ -23,40 +24,62 @@ export default class PrintAdmin extends React.Component{
     }
   }
 
-  mobile = (number) => {
-    db.ref('users').on("value", function(data){
-      data.forEach( user => {
-       // console.log("dd", user.val())
-        if(user.val().mobile === number){
-          console.log("lll", user.val().name)
-          return user.val().name
-        }
-      })
+  async mobile(classCode){
+    // db.ref('users').on("value", function(data){
+    //   data.forEach( user => {
+    //    // console.log("dd", user.val())
+    //     if(user.val().mobile === number){
+    //       console.log("lll", user.val().name)
+    //       return user.val().name
+    //     }
+    //   })
+    // })
+
+    let users = this.state.users;
+    users.forEach( user => {
+      if(user.classCode === classCode){
+          return user.name
+       }
     })
   }
 
   componentDidMount(){
-    // console.log("ddd" , this.mobile("9387243797"));
     var that = this ;
+    db.ref('users').on("value" , function(data){
+      let users = [];
+      data.forEach( user => {
+        let m = {
+          name : user.val().name,
+          mobile : user.val().mobile,
+          class : user.val().class,
+          school : user.val().school,
+          classCode : user.val().classCode
+        }
+        users.push(m);
+      })
+      that.setState({users});
+    })
+    // console.log("ddd" , this.mobile("9387243797"));
     var vj_data = []
     let schoolList = this.state.schoolList ;
     schoolList.forEach(schoolCode => {
       db.ref(schoolCode).on("value" , function(data){
         data.forEach( classCode => {
-          classCode.forEach( student => {
-            let nam = that.mobile(student.val().mobile);
-            var d = {
-              name:student.val().name,
-              photo:student.val().photo,
-              regno:student.val().regno,
-              events:student.val().events,
-              class:classCode.key,
-              school:that.search(schoolCode , that.state.class ),
-              mobile : student.val().mobile,
-              teacherInCharge : nam
-            }
-            vj_data.push(d)
-            console.log(d);
+          that.mobile(classCode.key).then((nam) => {
+            classCode.forEach( student => {
+              var d = {
+                name:student.val().name,
+                photo:student.val().photo,
+                regno:student.val().regno,
+                events:student.val().events,
+                class:classCode.key,
+                school:that.search(schoolCode , that.state.class ),
+                mobile : student.val().mobile,
+                teacherInCharge : nam
+              }
+              vj_data.push(d)
+              console.log(d);
+            })
           })
         })
         that.setState({data:vj_data})
