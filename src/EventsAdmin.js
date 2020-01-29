@@ -49,6 +49,32 @@ export default class EventsAdmin extends React.Component{
 				this.setState({redirect : true})
 		}
 
+		addEvents = (schoolCode , classCode) => {
+			let studentDetails = this.state.studentDetails ;
+			let that = this;
+				studentDetails.forEach( student => {
+					db.ref(schoolCode).child(classCode).child(student.studentId).on("value" , function(data){
+						if(data.val()!==null){
+							if(data.val().events!==null){
+								if(data.val().events.eventListSlot1!==undefined){
+									student["slot1"] = data.val().events.eventListSlot1.eventListSlot1.eventName;
+									console.log("ss", student.slot1)
+								}
+								if(data.val().events.eventListSlot2!==undefined){
+									console.log("ss", data.val().events.eventListSlot2.eventListSlot2.eventName)
+									student["slot2"] = data.val().events.eventListSlot2.eventListSlot2.eventName;
+								}
+								if(data.val().events.eventListSlot3!==undefined){
+									console.log("ss", data.val().events.eventListSlot3.eventListSlot3.eventName)
+									student["slot3"] = data.val().events.eventListSlot3.eventListSlot3.eventName;
+								}
+							}
+							that.setState({studentDetails})
+						}
+					})
+				})
+		}
+
 		onSelect = (keys, event) => {
 			var that = this ;
 			let schoolCode = keys[0].slice(0,6);
@@ -76,7 +102,7 @@ export default class EventsAdmin extends React.Component{
 						}
 						studentDetails.push(m);
 					})
-					that.setState({studentDetails})
+					that.setState({studentDetails}, () => {that.addEvents(schoolCode , classCode)})
 				})
 				this.setState({viewSchools : false , viewClasses : true})
 			}
@@ -88,7 +114,10 @@ export default class EventsAdmin extends React.Component{
 				{ label: "ID", key: "studentId" },
 				{ label: "Name", key: "studentName" },
 				{ label: "Gender", key: "gender" },
-				{ label: "Class Code" , key : "classCode"}
+				{ label: "Class Code" , key : "classCode"},
+				{ label : "Slot 1" , key : "slot1" },
+				{ label : "Slot 2" , key : "slot2" },
+				{ label : "Slot 3" , key : "slot3"}
 			];
 
 			if(this.state.redirect === true){
@@ -283,6 +312,9 @@ export default class EventsAdmin extends React.Component{
 												<Column title="Email" dataIndex="fellowEmail" key="fellowEmail" />
 												<Column title="School Code" dataIndex="schoolCode" key="schoolCode" />
 												<Column title="Class Code" dataIndex="classCode" key="classCode" />
+												<Column title="Slot 1 Event" dataIndex="slot1" key="slot1"/>
+												<Column title="Slot 2 Event" dataIndex="slot2" key="slot2"/>
+												<Column title="Slot 3 Event" dataIndex="slot3" key="slot3"/>
 											</Table>
 										</div> 
 									: null}
