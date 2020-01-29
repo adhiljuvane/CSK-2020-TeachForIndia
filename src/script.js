@@ -66,15 +66,15 @@ export default class Script extends React.Component{
             }
             //console.log("mm",m)
             if(student.val().events.eventListSlot1 !== undefined){
-              db.ref('eventStudentLists').child(sec).child('eventListSlot1').child(student.val().events.eventListSlot1.eventListSlot1.eventCode).push(m);
+              db.ref('eventStudentLis').child(sec).child('eventListSlot1').child(student.val().events.eventListSlot1.eventListSlot1.eventCode).child(m.regno).set(m);
               //console.log("1" , sec , student.val().events.eventListSlot1.eventListSlot1.eventCode , m);
             }
             if(student.val().events.eventListSlot2 !== undefined){
-              db.ref('eventStudentLists').child(sec).child('eventListSlot2').child(student.val().events.eventListSlot2.eventListSlot2.eventCode).push(m);
+              db.ref('eventStudentLis').child(sec).child('eventListSlot2').child(student.val().events.eventListSlot2.eventListSlot2.eventCode).child(m.regno).set(m);
               //console.log("2" , sec , student.val().events.eventListSlot2.eventListSlot2.eventCode , m);
             }
             if(student.val().events.eventListSlot3 !== undefined){
-              db.ref('eventStudentLists').child(sec).child('eventListSlot3').child(student.val().events.eventListSlot3.eventListSlot3.eventCode).push(m);
+              db.ref('eventStudentLis').child(sec).child('eventListSlot3').child(student.val().events.eventListSlot3.eventListSlot3.eventCode).child(m.regno).set(m);
               //console.log("3" , sec , student.val().events.eventListSlot3.eventListSlot3.eventCode , m);
             }
           })
@@ -86,7 +86,7 @@ export default class Script extends React.Component{
   render(){
     return(
       <div>
-        dsdfsdfsdfsfsdfs
+        Script Running....
       </div>
     )
   }
